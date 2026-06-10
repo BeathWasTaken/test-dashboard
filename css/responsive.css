@@ -1,0 +1,271 @@
+@media (max-width: 1024px) {
+  .page-grid--4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .page-grid--3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .notification-panel {
+    width: 340px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-wrapper {
+    margin-left: 0;
+  }
+
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .sidebar__close.mobile-only,
+  .topbar__menu.mobile-only {
+    display: inline-flex !important;
+  }
+
+  .sidebar-overlay {
+    display: block;
+  }
+
+  .topbar {
+    padding: 0 var(--space-4);
+  }
+
+  .topbar__search {
+    max-width: none;
+  }
+
+  .main-content {
+    padding: var(--space-4);
+  }
+
+  .page-header__title {
+    font-size: var(--font-size-2xl);
+  }
+
+  .page-grid--2,
+  .page-grid--3,
+  .page-grid--4 {
+    grid-template-columns: 1fr;
+  }
+
+  .welcome-banner {
+    padding: var(--space-6);
+  }
+
+  .welcome-banner__name {
+    font-size: var(--font-size-2xl);
+  }
+
+  .welcome-banner__stats {
+    gap: var(--space-5);
+  }
+
+  .welcome-banner__top {
+    flex-direction: column;
+  }
+
+  .welcome-banner__gpa-cards {
+    width: 100%;
+  }
+
+  .welcome-gpa-card {
+    flex: 1;
+  }
+
+  .dash-finance {
+    grid-template-columns: 1fr;
+  }
+
+  .fin-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .fin-ring-wrap {
+    flex-direction: column;
+  }
+
+  .fin-ring__stats {
+    width: 100%;
+  }
+
+  .gpa-table-summary {
+    flex-wrap: wrap;
+  }
+
+  .gpa-table-summary__divider {
+    display: none;
+  }
+
+  .dash-overview {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .schedule-grid {
+    grid-template-columns: 40px repeat(7, minmax(0, 1fr));
+    font-size: 10px;
+  }
+
+  .schedule-manage-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .schedule-item-actions {
+    justify-content: flex-end;
+  }
+
+  .profile-avatar-section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .milestone-card__footer--numeric {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .milestone-card__footer--numeric .btn {
+    width: 100%;
+  }
+
+  .notification-panel {
+    position: fixed;
+    top: var(--topbar-height);
+    left: var(--space-4);
+    right: var(--space-4);
+    width: auto;
+  }
+
+  .modal {
+    max-width: 100%;
+    margin: var(--space-4);
+    border-radius: var(--radius-xl);
+  }
+
+  .toast-container {
+    left: var(--space-4);
+    right: var(--space-4);
+  }
+
+  .toast {
+    min-width: auto;
+  }
+
+  .countdown {
+    flex-wrap: wrap;
+  }
+
+  .filters-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filters-bar .form-input,
+  .filters-bar .form-select {
+    width: 100%;
+  }
+
+  .tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tab {
+    flex: none;
+    white-space: nowrap;
+    padding: var(--space-2) var(--space-4);
+  }
+
+  .gpa-display__value {
+    font-size: 3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .stat-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .welcome-banner__stats {
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .dash-overview {
+    grid-template-columns: 1fr;
+  }
+
+  .dash-quick-links {
+    gap: var(--space-2);
+  }
+
+  .dash-quick-link {
+    flex: 1;
+    justify-content: center;
+    min-width: calc(50% - var(--space-1));
+  }
+
+  .page-header__top {
+    flex-direction: column;
+  }
+
+  .quick-actions {
+    width: 100%;
+  }
+
+  .quick-actions .btn {
+    flex: 1;
+  }
+
+  .theme-switcher {
+    flex-direction: column;
+  }
+
+  .dash-finance__flow-box {
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .dash-finance__flow-divider {
+    width: 100%;
+    height: 1px;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-only {
+    display: none !important;
+    pointer-events: none !important;
+    visibility: hidden !important;
+  }
+}
+
+@media (min-width: 1400px) {
+  .main-content {
+    margin: 0 auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
