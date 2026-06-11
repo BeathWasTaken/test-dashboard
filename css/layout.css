@@ -196,6 +196,7 @@
 }
 
 .sidebar-overlay.visible {
+  display: block;
   opacity: 1;
 }
 

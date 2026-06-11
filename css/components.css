@@ -1725,6 +1725,7 @@
 
 .schedule-item-actions {
   display: flex;
+  margin-left: auto;
   gap: var(--space-2);
   flex-shrink: 0;
   flex-wrap: wrap;

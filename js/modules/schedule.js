@@ -142,11 +142,11 @@ function renderSchedule(container) {
 
       <p class="schedule-hint">
 
-        ${viewMode === 'weekly' ? '💡 Klik blok kelas untuk menambahkan ke Google Calendar.' :
+        ${viewMode === 'weekly' ? 'Klik blok kelas untuk menambahkan ke Google Calendar.' :
 
-          viewMode === 'daily' ? '📅 Klik Kalender untuk menambahkan ke Google Calendar.' :
+          viewMode === 'daily' ? 'Klik Kalender untuk menambahkan ke Google Calendar.' :
 
-          '⚙️ Atur semua kelas — ubah jadwal, dosen, ruang, atau hapus.'}
+          'Atur semua kelas — ubah jadwal, dosen, ruang, atau hapus.'}
 
       </p>
 
@@ -298,7 +298,7 @@ function renderDailyView(schedule, today, conflicts) {
 
             <div class="schedule-item-actions">
 
-              <button type="button" class="btn-gcal add-gcal" data-id="${c.id}">📅 Kalender</button>
+              <button type="button" class="btn-gcal add-gcal" data-id="${c.id}">📅</button>
 
             </div>
 
