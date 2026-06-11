@@ -63,18 +63,14 @@ function initTheme() {
   applyTheme(theme);
 
   const themeToggle = document.getElementById('theme-toggle');
-  const handler = () => {
+
+  themeToggle.addEventListener('click', () => {
     const current = document.documentElement.getAttribute('data-theme');
     const next = current === 'dark' ? 'light' : 'dark';
+
     applyTheme(next);
     state.updateSettings({ theme: next });
-  };
-
-  themeToggle.addEventListener('click', handler);
-  // Add touch support for mobile
-  if ('ontouchstart' in window) {
-    themeToggle.addEventListener('touchstart', handler, { passive: true });
-  }
+  });
 }
 
 function initGlobalSearch() {
