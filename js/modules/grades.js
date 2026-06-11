@@ -54,13 +54,13 @@ function renderGrades(container) {
       <div class="page-grid page-grid--3" style="margin-bottom:var(--space-8)">
         <div class="card">
           <div class="gpa-display">
-            <div class="gpa-display__value" id="gpa-value">0.00</div>
+            <div class="gpa-display__value" id="gpa-value">${currentIP.toFixed(2)}</div>
             <div class="gpa-display__label">IP Semester Ini — Sem ${profile.semester}</div>
           </div>
         </div>
         <div class="card">
           <div class="gpa-display">
-            <div class="gpa-display__value" id="cgpa-value">0.00</div>
+            <div class="gpa-display__value" id="cgpa-value">${ipk.toFixed(2)}</div>
             <div class="gpa-display__label">IPK Kumulatif</div>
           </div>
         </div>

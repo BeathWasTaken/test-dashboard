@@ -37,7 +37,15 @@ function initSidebar() {
   const close = document.getElementById('sidebar-close');
   const overlay = document.getElementById('sidebar-overlay');
 
-  toggle.addEventListener('click', () => {
+  // Add both click and touchstart for better mobile responsiveness
+  const addTouchEvents = (element, handler) => {
+    if (element) {
+      element.addEventListener('click', handler);
+      element.addEventListener('touchstart', handler, { passive: true });
+    }
+  };
+
+  addTouchEvents(toggle, () => {
     const sidebar = document.getElementById('sidebar');
     if (sidebar.classList.contains('open')) {
       closeSidebar();
@@ -46,20 +54,27 @@ function initSidebar() {
     }
   });
 
-  close.addEventListener('click', closeSidebar);
-  overlay.addEventListener('click', closeSidebar);
+  addTouchEvents(close, closeSidebar);
+  addTouchEvents(overlay, closeSidebar);
 }
 
 function initTheme() {
   const theme = state.get().settings.theme || 'light';
   applyTheme(theme);
 
-  document.getElementById('theme-toggle').addEventListener('click', () => {
+  const themeToggle = document.getElementById('theme-toggle');
+  const handler = () => {
     const current = document.documentElement.getAttribute('data-theme');
     const next = current === 'dark' ? 'light' : 'dark';
     applyTheme(next);
     state.updateSettings({ theme: next });
-  });
+  };
+
+  themeToggle.addEventListener('click', handler);
+  // Add touch support for mobile
+  if ('ontouchstart' in window) {
+    themeToggle.addEventListener('touchstart', handler, { passive: true });
+  }
 }
 
 function initGlobalSearch() {

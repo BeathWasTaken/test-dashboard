@@ -71,10 +71,16 @@ export function initRouter() {
   });
 
   document.querySelectorAll('[data-nav]').forEach(link => {
-    link.addEventListener('click', (e) => {
+    const handler = (e) => {
       e.preventDefault();
       navigate(link.dataset.nav);
-    });
+    };
+    
+    link.addEventListener('click', handler);
+    // Add touch support for mobile
+    if ('ontouchstart' in window) {
+      link.addEventListener('touchstart', handler, { passive: false });
+    }
   });
 
   const page = window.location.hash.slice(1) || 'dashboard';
