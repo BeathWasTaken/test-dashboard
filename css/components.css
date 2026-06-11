@@ -1477,7 +1477,7 @@
 /* Toast */
 .toast-container {
   position: fixed;
-  bottom: var(--space-6);
+  top: var(--space-6);
   right: var(--space-6);
   z-index: var(--z-toast);
   display: flex;
