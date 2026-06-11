@@ -107,7 +107,7 @@ function renderSettings(container) {
       <div class="settings-section">
         <h2 class="settings-section__title">Kelola Data</h2>
         <div class="card">
-          <p style="margin-bottom:var(--space-5);color:var(--text-secondary)">Ekspor atau impor data melalui Excel (.xls). File JSON lama juga masih didukung untuk impor.</p>
+          <p style="margin-bottom:var(--space-5);color:var(--text-secondary)">Ekspor atau impor data melalui Excel (.xls).</p>
           <div class="quick-actions">
             <button class="btn btn-secondary" id="export-btn">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
