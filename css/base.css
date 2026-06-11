@@ -70,9 +70,6 @@ button {
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
   touch-action: manipulation;
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
 }
 
 input, select, textarea {
@@ -80,9 +77,6 @@ input, select, textarea {
   font-size: inherit;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
-  user-select: text;
-  -webkit-user-select: text;
-  -moz-user-select: text;
 }
 
 ul, ol {
