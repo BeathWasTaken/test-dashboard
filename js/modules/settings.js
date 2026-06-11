@@ -111,11 +111,11 @@ function renderSettings(container) {
           <div class="quick-actions">
             <button class="btn btn-secondary" id="export-btn">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-              Ekspor ke Excel
+              Ekspor
             </button>
             <label class="btn btn-secondary" style="cursor:pointer">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
-              Impor dari Excel
+              Impor
               <input type="file" id="import-file" accept=".xls,.json" style="display:none">
             </label>
             <button class="btn btn-danger" id="reset-btn">
