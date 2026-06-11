@@ -13,6 +13,7 @@ html {
   -ms-overflow-style: none;
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
+  color-scheme: light;
 }
 
 html::-webkit-scrollbar,
