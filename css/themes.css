@@ -52,16 +52,16 @@
   opacity: 0.5;
 }
 
-[data-theme="dark"] .welcome-banner,
-[data-theme="dark"] .welcome-banner__greeting,
-[data-theme="dark"] .welcome-banner__name,
-[data-theme="dark"] .welcome-banner__major,
-[data-theme="dark"] .welcome-banner__stat-value,
-[data-theme="dark"] .welcome-banner__stat-label,
-[data-theme="dark"] .welcome-gpa-card,
-[data-theme="dark"] .welcome-gpa-card__label,
-[data-theme="dark"] .welcome-gpa-card__value,
-[data-theme="dark"] .dash-quick-link {
+.welcome-banner,
+.welcome-banner__greeting,
+.welcome-banner__name,
+.welcome-banner__major,
+.welcome-banner__stat-value,
+.welcome-banner__stat-label,
+.welcome-gpa-card,
+.welcome-gpa-card__label,
+.welcome-gpa-card__value,
+.dash-quick-link {
   color: #ffffff;
 }
 
