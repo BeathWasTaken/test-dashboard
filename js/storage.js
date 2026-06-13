@@ -12,7 +12,8 @@ export const defaultData = {
   settings: {
     theme: 'light',
     attendanceWarningThreshold: 75,
-    gradeScale: null
+    gradeScale: null,
+    scheduleYear: new Date().getFullYear()
   },
   courses: [],
   schedule: [],

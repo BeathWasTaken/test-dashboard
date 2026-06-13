@@ -144,9 +144,19 @@
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .schedule-grid {
-    grid-template-columns: 40px repeat(7, minmax(0, 1fr));
+  .cal {
+    grid-template-columns: 36px repeat(7, minmax(0, 1fr));
     font-size: 10px;
+    min-width: 0;
+  }
+
+  .cal__cell {
+    min-height: 36px;
+  }
+
+  .cal__event {
+    font-size: 10px;
+    padding: 1px 4px;
   }
 
   .schedule-manage-card {

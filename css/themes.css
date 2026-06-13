@@ -124,8 +124,8 @@
   background: var(--bg-muted);
 }
 
-[data-theme="dark"] .schedule-grid__header,
-[data-theme="dark"] .schedule-grid__time {
+[data-theme="dark"] .cal__header,
+[data-theme="dark"] .cal__time {
   background: var(--bg-muted);
 }
 

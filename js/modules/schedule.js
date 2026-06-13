@@ -24,7 +24,7 @@ export function initSchedule() {
 
 
 
-let viewMode = 'weekly';
+let viewMode = 'daily';
 
 
 
@@ -56,6 +56,62 @@ function sortSchedule(schedule) {
 
 
 
+function getFilteredSchedule(schedule) {
+
+  const settings = state.get().settings;
+
+  const year = parseInt(settings.scheduleYear) || new Date().getFullYear();
+
+  return schedule.filter(s => {
+
+    const sy = s.year ? parseInt(s.year) : new Date().getFullYear();
+
+    return sy === year;
+
+  });
+
+}
+
+
+
+function renderYearSelector() {
+
+  const current = parseInt(state.get().settings.scheduleYear) || new Date().getFullYear();
+
+  const years = [];
+
+  const thisYear = new Date().getFullYear();
+
+  for (let y = thisYear - 2; y <= thisYear + 4; y++) {
+
+    years.push(y);
+
+  }
+
+  return `
+
+    <div class="filters-bar" style="margin-top:var(--space-4)">
+
+      <label style="display:flex;align-items:center;gap:var(--space-2);font-size:var(--font-size-sm);color:var(--text-muted)">
+
+        Tahun Akademik
+
+        <select class="form-select" id="schedule-year-filter" style="width:auto">
+
+          ${years.map(y => `<option value="${y}" ${y === current ? 'selected' : ''}>${y}/${y + 1}</option>`).join('')}
+
+        </select>
+
+      </label>
+
+    </div>
+
+  `;
+
+}
+
+
+
 function renderSchedule(container) {
 
   if (viewMode === 'list') viewMode = 'weekly';
@@ -64,7 +120,9 @@ function renderSchedule(container) {
 
   const { schedule } = data;
 
-  const conflicts = detectConflicts(schedule);
+  const filtered = getFilteredSchedule(schedule);
+
+  const conflicts = detectConflicts(filtered);
 
   const today = getDayName();
 
@@ -110,6 +168,8 @@ function renderSchedule(container) {
 
         </div>
 
+        ${renderYearSelector()}
+
       </div>
 
 
@@ -130,11 +190,9 @@ function renderSchedule(container) {
 
       <div class="tabs">
 
-        <button class="tab ${viewMode === 'weekly' ? 'active' : ''}" data-view="weekly">Mingguan</button>
+        <button class="tab ${viewMode === 'daily' ? 'active' : ''}" data-view="daily">Hari Ini</button>
 
-        <button class="tab ${viewMode === 'daily' ? 'active' : ''}" data-view="daily">Harian</button>
-
-        <button class="tab ${viewMode === 'manage' ? 'active' : ''}" data-view="manage">Kelola Kelas</button>
+        <button class="tab ${viewMode === 'weekly' ? 'active' : ''}" data-view="weekly">Jadwal</button>
 
       </div>
 
@@ -142,11 +200,9 @@ function renderSchedule(container) {
 
       <p class="schedule-hint">
 
-        ${viewMode === 'weekly' ? 'Klik blok kelas untuk menambahkan ke Google Calendar.' :
+        ${viewMode === 'daily' ? 'Jadwal kuliah Anda hari ini.' :
 
-          viewMode === 'daily' ? 'Klik Kalender untuk menambahkan ke Google Calendar.' :
-
-          'Atur semua kelas — ubah jadwal, dosen, ruang, atau hapus.'}
+          'Klik blok kelas untuk melihat detail dan mengelola jadwal.'}
 
       </p>
 
@@ -154,11 +210,9 @@ function renderSchedule(container) {
 
       <div id="schedule-content">
 
-        ${viewMode === 'weekly' ? renderWeeklyView(schedule, conflicts, hours) :
+        ${viewMode === 'daily' ? renderDailyView(filtered, today, conflicts) :
 
-          viewMode === 'daily' ? renderDailyView(schedule, today, conflicts) :
-
-          renderManageView(schedule, conflicts)}
+          renderWeeklyView(filtered, conflicts, hours)}
 
       </div>
 
@@ -184,6 +238,16 @@ function renderSchedule(container) {
 
 
 
+  container.querySelector('#schedule-year-filter')?.addEventListener('change', (e) => {
+
+    state.updateSettings({ scheduleYear: parseInt(e.target.value) });
+
+    renderSchedule(container);
+
+  });
+
+
+
   bindScheduleEvents(container);
 
 }
@@ -200,7 +264,9 @@ function renderWeeklyView(schedule, conflicts, hours) {
 
       const startH = parseInt(s.startTime.split(':')[0]);
 
-      return startH === parseInt(hour.split(':')[0]);
+      const endH = parseInt(s.endTime.split(':')[0]);
+
+      return startH <= parseInt(hour.split(':')[0]) && endH > parseInt(hour.split(':')[0]);
 
     });
 
@@ -208,13 +274,13 @@ function renderWeeklyView(schedule, conflicts, hours) {
 
 
 
-  let html = '<div class="schedule-grid-wrap"><div class="schedule-grid">';
+  let html = '<div class="cal-wrap"><div class="cal">';
 
-  html += '<div class="schedule-grid__header"></div>';
+  html += '<div class="cal__header"></div>';
 
   DAYS_SHORT.forEach(d => {
 
-    html += `<div class="schedule-grid__header">${d}</div>`;
+    html += `<div class="cal__header">${d}</div>`;
 
   });
 
@@ -222,23 +288,27 @@ function renderWeeklyView(schedule, conflicts, hours) {
 
   hours.forEach(hour => {
 
-    html += `<div class="schedule-grid__time">${hour}</div>`;
+    html += `<div class="cal__time">${hour}</div>`;
 
     DAYS.forEach(day => {
 
       const events = getEventsForCell(day, hour);
 
-      html += `<div class="schedule-grid__cell">`;
+      html += `<div class="cal__cell">`;
 
       events.forEach(e => {
 
+        const span = Math.max(1, parseInt(e.endTime.split(':')[0]) - parseInt(e.startTime.split(':')[0]));
+
+        const color = conflicts.has(e.id) ? 'cal__event--conflict' : '';
+
         html += `
 
-          <div class="schedule-event schedule-event--clickable ${conflicts.has(e.id) ? 'conflict' : ''}" data-id="${e.id}" role="button" tabindex="0" title="Klik untuk tambah ke Google Calendar">
+          <div class="cal__event ${color}" data-id="${e.id}" role="button" tabindex="0" style="--span:${span}">
 
-            <div class="schedule-event__title">${escapeHtml(e.courseName)}</div>
+            <div class="cal__event-title">${escapeHtml(e.courseName)}</div>
 
-            <div class="schedule-event__meta">${formatTime(e.startTime)}-${formatTime(e.endTime)}${e.mode === 'online' ? ' · Online' : ''}</div>
+            <div class="cal__event-meta">${formatTime(e.startTime)}-${formatTime(e.endTime)}${e.mode === 'online' ? ' · Online' : ''}</div>
 
           </div>
 
@@ -298,7 +368,11 @@ function renderDailyView(schedule, today, conflicts) {
 
             <div class="schedule-item-actions">
 
-              <button type="button" class="btn-gcal add-gcal" data-id="${c.id}">📅</button>
+              <button type="button" class="btn btn-ghost btn-sm edit-schedule" data-id="${c.id}">Ubah</button>
+
+              <button type="button" class="btn btn-ghost btn-sm delete-schedule" data-id="${c.id}" style="color:var(--color-danger)">Hapus</button>
+
+              <button type="button" class="btn-gcal add-gcal" data-id="${c.id}" title="Google Calendar">📅</button>
 
             </div>
 
@@ -316,91 +390,135 @@ function renderDailyView(schedule, today, conflicts) {
 
 
 
-function renderManageView(schedule, conflicts) {
+function showDetailModal(id) {
 
-  const sorted = sortSchedule(schedule);
+  const item = state.get().schedule.find(s => s.id === id);
+
+  if (!item) return;
 
 
 
-  if (!sorted.length) {
+  const content = `
 
-    return `
+    <div style="display:flex;flex-direction:column;gap:var(--space-4)">
 
-      <div class="card">
+      <div>
 
-        <div class="empty-state">
+        <h3 style="font-size:var(--font-size-xl);font-weight:700;margin-bottom:var(--space-1)">${escapeHtml(item.courseName)}</h3>
 
-          <h3 class="empty-state__title">Belum ada kelas</h3>
+        <p style="font-size:var(--font-size-sm);color:var(--text-muted)">${item.day} · ${formatTime(item.startTime)} – ${formatTime(item.endTime)}</p>
 
-          <p class="empty-state__text">Klik "Tambah Kelas" untuk mendaftarkan jadwal kuliah Anda.</p>
+      </div>
 
-          <button class="btn btn-primary" id="add-schedule-empty">Tambah Kelas Pertama</button>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-3)">
+
+        <div style="padding:var(--space-3);background:var(--bg-secondary);border-radius:var(--radius-lg);text-align:center">
+
+          <div style="font-size:var(--font-size-xs);color:var(--text-muted)">Dosen</div>
+
+          <div style="font-weight:600;font-size:var(--font-size-sm)">${escapeHtml(item.lecturer || '—')}</div>
+
+        </div>
+
+        <div style="padding:var(--space-3);background:var(--bg-secondary);border-radius:var(--radius-lg);text-align:center">
+
+          <div style="font-size:var(--font-size-xs);color:var(--text-muted)">Ruangan</div>
+
+          <div style="font-weight:600;font-size:var(--font-size-sm)">${item.mode === 'online' ? 'Online' : escapeHtml(item.room || '—')}</div>
 
         </div>
 
       </div>
 
-    `;
+      <div style="text-align:center">
 
-  }
+        <button class="btn btn-outline" id="detail-gcal-btn" style="width:100%;justify-content:center">
 
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
 
+          Tambah ke Google Calendar
 
-  return `
-
-    <div class="schedule-manage">
-
-      <div class="schedule-manage__header">
-
-        <span class="badge badge--primary">${sorted.length} kelas terdaftar</span>
+        </button>
 
       </div>
-
-      ${sorted.map(s => `
-
-        <div class="schedule-manage-card ${conflicts.has(s.id) ? 'schedule-manage-card--conflict' : ''}">
-
-          <div class="schedule-manage-card__main">
-
-            <div class="schedule-manage-card__day">${s.day}</div>
-
-            <div class="schedule-manage-card__body">
-
-              <h4 class="schedule-manage-card__title">${escapeHtml(s.courseName)}</h4>
-
-              <p class="schedule-manage-card__meta">
-
-                ${formatTime(s.startTime)} – ${formatTime(s.endTime)}
-
-                · ${escapeHtml(s.lecturer || '—')}
-
-                · ${formatLocation(s)}
-
-              </p>
-
-              ${conflicts.has(s.id) ? '<span class="badge badge--danger" style="margin-top:var(--space-2)">Konflik jadwal</span>' : ''}
-
-            </div>
-
-          </div>
-
-          <div class="schedule-item-actions">
-
-            <button class="btn btn-ghost btn-sm edit-schedule" data-id="${s.id}">Ubah</button>
-
-            <button class="btn btn-ghost btn-sm delete-schedule" data-id="${s.id}" style="color:var(--color-danger)">Hapus</button>
-
-            <button type="button" class="btn-gcal add-gcal" data-id="${s.id}" title="Google Calendar">📅</button>
-
-          </div>
-
-        </div>
-
-      `).join('')}
 
     </div>
 
   `;
+
+
+
+  const footer = `
+
+    <button class="btn btn-secondary" id="detail-edit-btn">Ubah</button>
+
+    <button class="btn btn-danger" id="detail-delete-btn">Hapus</button>
+
+  `;
+
+
+
+  const { close, modal } = openModal({
+
+    title: 'Detail Jadwal',
+
+    content,
+
+    footer
+
+  });
+
+
+
+  modal.querySelector('#detail-gcal-btn').addEventListener('click', () => {
+
+    openGCalForSchedule(id);
+
+  });
+
+
+
+  modal.querySelector('#detail-edit-btn').addEventListener('click', () => {
+
+    close();
+
+    showScheduleModal(item);
+
+  });
+
+
+
+  modal.querySelector('#detail-delete-btn').addEventListener('click', async () => {
+
+    const ok = await confirmDialog({
+
+      title: 'Hapus Kelas',
+
+      message: 'Kelas ini akan dihapus dari jadwal.',
+
+      confirmText: 'Ya, Hapus',
+
+      variant: 'danger'
+
+    });
+
+    if (ok) {
+
+      state.deleteScheduleItem(id);
+
+      showToast('Kelas dihapus', 'success');
+
+      close();
+
+      renderSchedule(document.getElementById('page-container'));
+
+    }
+
+  });
+
+
+
+  modal.querySelector('.modal-cancel').addEventListener('click', close);
 
 }
 
@@ -426,11 +544,9 @@ function bindScheduleEvents(container) {
 
 
 
-  container.querySelectorAll('.schedule-event--clickable').forEach(el => {
+  container.querySelectorAll('.cal__event').forEach(el => {
 
-    const open = () => openGCalForSchedule(el.dataset.id);
-
-    el.addEventListener('click', open);
+    el.addEventListener('click', () => showDetailModal(el.dataset.id));
 
     el.addEventListener('keydown', (e) => {
 
@@ -438,7 +554,7 @@ function bindScheduleEvents(container) {
 
         e.preventDefault();
 
-        open();
+        showDetailModal(el.dataset.id);
 
       }
 
@@ -512,6 +628,8 @@ function showScheduleModal(item = null) {
 
   const courses = state.get().courses;
 
+  const currentYear = parseInt(state.get().settings.scheduleYear) || new Date().getFullYear();
+
 
 
   if (courses.length === 0) {
@@ -522,7 +640,15 @@ function showScheduleModal(item = null) {
 
   }
 
+  const years = [];
 
+  const thisYear = new Date().getFullYear();
+
+  for (let y = thisYear - 2; y <= thisYear + 4; y++) {
+
+    years.push(y);
+
+  }
 
   const content = `
 
@@ -610,6 +736,18 @@ function showScheduleModal(item = null) {
 
       </div>
 
+      <div class="form-group">
+
+        <label class="form-label" for="sched-year">Tahun Akademik</label>
+
+        <select class="form-select" id="sched-year" required>
+
+          ${years.map(y => `<option value="${y}" ${y === (item?.year ? parseInt(item.year) : currentYear) ? 'selected' : ''}>${y}/${y + 1}</option>`).join('')}
+
+        </select>
+
+      </div>
+
     </form>
 
   `;
@@ -678,6 +816,8 @@ function showScheduleModal(item = null) {
 
     const endTime = modal.querySelector('#sched-end').value;
 
+    const year = modal.querySelector('#sched-year').value;
+
 
 
     if (!courseName) return showToast('Masukkan nama mata kuliah', 'error');
@@ -686,7 +826,7 @@ function showScheduleModal(item = null) {
 
 
 
-    const payload = { courseName, lecturer, room, day, startTime, endTime, mode };
+    const payload = { courseName, lecturer, room, day, startTime, endTime, mode, year };
 
 
 
@@ -713,4 +853,3 @@ function showScheduleModal(item = null) {
   });
 
 }
-
