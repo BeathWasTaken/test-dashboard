@@ -64,9 +64,9 @@ function getFilteredSchedule(schedule) {
 
   return schedule.filter(s => {
 
-    const sy = s.year ? parseInt(s.year) : new Date().getFullYear();
+    if (!s.year) return true;
 
-    return sy === year;
+    return parseInt(s.year) === year;
 
   });
 
@@ -256,24 +256,6 @@ function renderSchedule(container) {
 
 function renderWeeklyView(schedule, conflicts, hours) {
 
-  const getEventsForCell = (day, hour) => {
-
-    return schedule.filter(s => {
-
-      if (!matchesDay(s.day, day)) return false;
-
-      const startH = parseInt(s.startTime.split(':')[0]);
-
-      const endH = parseInt(s.endTime.split(':')[0]);
-
-      return startH <= parseInt(hour.split(':')[0]) && endH > parseInt(hour.split(':')[0]);
-
-    });
-
-  };
-
-
-
   let html = '<div class="cal-wrap"><div class="cal">';
 
   html += '<div class="cal__header"></div>';
@@ -292,19 +274,23 @@ function renderWeeklyView(schedule, conflicts, hours) {
 
     DAYS.forEach(day => {
 
-      const events = getEventsForCell(day, hour);
+      const events = schedule.filter(s => {
+
+        if (!matchesDay(s.day, day)) return false;
+
+        return parseInt(s.startTime.split(':')[0]) === parseInt(hour.split(':')[0]);
+
+      });
 
       html += `<div class="cal__cell">`;
 
       events.forEach(e => {
 
-        const span = Math.max(1, parseInt(e.endTime.split(':')[0]) - parseInt(e.startTime.split(':')[0]));
-
         const color = conflicts.has(e.id) ? 'cal__event--conflict' : '';
 
         html += `
 
-          <div class="cal__event ${color}" data-id="${e.id}" role="button" tabindex="0" style="--span:${span}">
+          <div class="cal__event ${color}" data-id="${e.id}" role="button" tabindex="0">
 
             <div class="cal__event-title">${escapeHtml(e.courseName)}</div>
 
