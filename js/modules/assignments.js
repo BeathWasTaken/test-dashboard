@@ -273,7 +273,7 @@ function showAssignmentModal(assignment = null) {
   fileInput?.addEventListener('change', () => {
     const f = fileInput.files[0];
     if (!f) return;
-    if (f.size > 5 * 1024 * 1024) {
+    if (f.size > 15 * 1024 * 1024) {
       showToast('Ukuran file maksimal 5 MB', 'error');
       fileInput.value = '';
       return;
