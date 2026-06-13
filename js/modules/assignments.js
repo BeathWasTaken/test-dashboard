@@ -12,7 +12,7 @@ export function initAssignments() {
   registerRoute('assignments', renderAssignments);
 }
 
-let filters = { search: '', status: 'all', priority: 'all', sort: 'deadline' };
+let filters = { search: '', status: 'todo', priority: 'all', sort: 'deadline' };
 
 function renderAssignments(container) {
   const data = state.get();
@@ -45,7 +45,7 @@ function renderAssignments(container) {
     total: data.assignments.length,
     todo: data.assignments.filter(a => a.status === 'todo').length,
     progress: data.assignments.filter(a => a.status === 'in-progress').length,
-    done: data.completedAssignments || 0
+    done: data.assignments.filter(a => a.status === 'done').length
   };
 
   container.innerHTML = `
@@ -181,13 +181,8 @@ function renderAssignments(container) {
 
   container.querySelectorAll('.status-select').forEach(sel => {
     sel.addEventListener('change', () => {
-      if (sel.value === 'done') {
-        state.completeAssignment(sel.dataset.id);
-        showToast('Tugas selesai — dihitung ke progres', 'success');
-      } else {
-        state.updateAssignment(sel.dataset.id, { status: sel.value });
-        showToast('Status diperbarui', 'success');
-      }
+      state.updateAssignment(sel.dataset.id, { status: sel.value });
+      showToast('Status diperbarui', 'success');
       renderAssignments(container);
     });
   });
@@ -307,14 +302,7 @@ function showAssignmentModal(assignment = null) {
 
     const payload = { title, course, deadline, priority, status, description, file: fileAttachment };
 
-    if (status === 'done') {
-      if (isEdit) {
-        state.completeAssignment(assignment.id);
-      } else {
-        state.update('completedAssignments', (state.get().completedAssignments || 0) + 1);
-      }
-      showToast('Tugas selesai — dihitung ke progres', 'success');
-    } else if (isEdit) {
+    if (isEdit) {
       state.updateAssignment(assignment.id, payload);
       showToast('Tugas diperbarui', 'success');
     } else {
