@@ -110,6 +110,7 @@ function renderAssignments(container) {
                 <div class="list-item__title">${escapeHtml(a.title)}</div>
                 <div class="list-item__meta">${escapeHtml(a.course)} · Tenggat ${formatDate(a.deadline)} ${overdue ? '(Terlambat)' : urgent ? '(Mendesak)' : ''}</div>
                 ${a.description ? `<p style="font-size:var(--font-size-xs);color:var(--text-muted);margin-top:var(--space-1)">${escapeHtml(a.description)}</p>` : ''}
+                ${a.file ? `<div class="file-attach"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M16 13H8M16 17H8M10 9H8"/></svg><span>${escapeHtml(a.file.name)}</span><a class="btn-text" href="${a.file.data}" download="${escapeHtml(a.file.name)}" style="font-size:var(--font-size-xs)">Unduh</a></div>` : ''}
               </div>
               <span class="badge priority-${a.priority}">${tPriority(a.priority)}</span>
               <span class="badge status-${a.status === 'in-progress' ? 'progress' : a.status}">${tStatus(a.status)}</span>
@@ -201,6 +202,9 @@ function showAssignmentModal(assignment = null) {
     return;
   }
 
+  const fileName = assignment?.file?.name || '';
+  const fileData = assignment?.file?.data || '';
+
   const content = `
     <form id="assignment-form">
       <div class="form-group">
@@ -237,6 +241,15 @@ function showAssignmentModal(assignment = null) {
         <label class="form-label" for="assign-desc">Deskripsi</label>
         <textarea class="form-textarea" id="assign-desc" rows="3">${assignment?.description || ''}</textarea>
       </div>
+      <div class="form-group">
+        <label class="form-label">Lampiran File</label>
+        <div class="file-upload-wrap">
+          <input class="file-upload-input" id="assign-file" type="file">
+          <label class="btn btn-outline btn-sm file-upload-label" for="assign-file">Pilih File</label>
+          <span class="file-upload-name" id="assign-file-name">${fileName || 'Tidak ada file dipilih'}</span>
+        </div>
+        ${fileName ? '<button type="button" class="btn btn-ghost btn-sm file-remove-btn" id="assign-file-remove" style="margin-top:var(--space-2);color:var(--color-danger)">Hapus File</button>' : ''}
+      </div>
     </form>
   `;
 
@@ -251,6 +264,36 @@ function showAssignmentModal(assignment = null) {
     footer
   });
 
+  let fileAttachment = assignment?.file || null;
+
+  const fileNameEl = modal.querySelector('#assign-file-name');
+  const fileInput = modal.querySelector('#assign-file');
+  const fileRemoveBtn = modal.querySelector('#assign-file-remove');
+
+  fileInput?.addEventListener('change', () => {
+    const f = fileInput.files[0];
+    if (!f) return;
+    if (f.size > 5 * 1024 * 1024) {
+      showToast('Ukuran file maksimal 5 MB', 'error');
+      fileInput.value = '';
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      fileAttachment = { name: f.name, data: e.target.result };
+      fileNameEl.textContent = f.name;
+      if (fileRemoveBtn) fileRemoveBtn.style.display = '';
+    };
+    reader.readAsDataURL(f);
+  });
+
+  fileRemoveBtn?.addEventListener('click', () => {
+    fileAttachment = null;
+    fileInput.value = '';
+    fileNameEl.textContent = 'Tidak ada file dipilih';
+    fileRemoveBtn.style.display = 'none';
+  });
+
   modal.querySelector('.modal-cancel').addEventListener('click', close);
   modal.querySelector('#save-assignment').addEventListener('click', () => {
     const title = modal.querySelector('#assign-title').value.trim();
@@ -262,7 +305,7 @@ function showAssignmentModal(assignment = null) {
 
     if (!title || !course || !deadline) return showToast('Lengkapi kolom wajib', 'error');
 
-    const payload = { title, course, deadline, priority, status, description };
+    const payload = { title, course, deadline, priority, status, description, file: fileAttachment };
 
     if (status === 'done') {
       if (isEdit) {

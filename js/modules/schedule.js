@@ -466,9 +466,7 @@ function showDetailModal(id) {
 
   modal.querySelector('#detail-edit-btn').addEventListener('click', () => {
 
-    const backdrop = document.getElementById('modal-root');
-
-    backdrop.innerHTML = '';
+    close();
 
     showScheduleModal(item);
 

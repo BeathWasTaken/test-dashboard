@@ -2264,6 +2264,51 @@
   color: #1d4ed8;
 }
 
+/* File upload */
+.file-upload-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.file-upload-input {
+  display: none;
+}
+
+.file-upload-label {
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.file-upload-name {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.file-attach {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-1);
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+  padding: var(--space-1) var(--space-3) var(--space-1) var(--space-2);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+}
+
+.file-attach a {
+  text-decoration: none;
+}
+
+.file-remove-btn {
+  display: inline-flex;
+}
+
 /* Google Calendar button */
 .btn-gcal {
   display: inline-flex;
