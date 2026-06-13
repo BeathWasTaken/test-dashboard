@@ -20,6 +20,61 @@ const EXPENSE_CATEGORIES = ['Kuliah', 'Makan', 'Transportasi', 'Pacaran', 'Hibur
 
 const CAT_COLORS = ['#6366f1', '#10b981', '#f59e0b', '#ef4444', '#ec4899', '#06b6d4', '#8b5cf6'];
 
+function getBudget() {
+  const s = state.get().settings;
+  return {
+    income: s.budgetIncome || 0,
+    expense: s.budgetExpense || 0
+  };
+}
+
+function setBudget(income, expense) {
+  state.updateSettings({ budgetIncome: income, budgetExpense: expense });
+}
+
+function renderBudgetCard(monthTotals) {
+  const budget = getBudget();
+  const incomePct = budget.income > 0 ? Math.min(100, Math.round((monthTotals.income / budget.income) * 100)) : 0;
+  const expensePct = budget.expense > 0 ? Math.min(100, Math.round((monthTotals.expense / budget.expense) * 100)) : 0;
+  const incomeRemain = budget.income - monthTotals.income;
+  const expenseRemain = budget.expense - monthTotals.expense;
+
+  return `
+    <div class="card" style="margin-bottom:var(--space-6)">
+      <div class="section-header" style="margin-bottom:var(--space-5)">
+        <h3 class="card__title">Target Bulanan</h3>
+        <button class="btn btn-ghost btn-sm" id="edit-budget-btn">Ubah Target</button>
+      </div>
+      <div class="page-grid page-grid--2" style="gap:var(--space-6)">
+        <div>
+          <div class="progress-label">
+            <span>Target Pemasukan</span>
+            <span>${formatCurrency(monthTotals.income)} / ${formatCurrency(budget.income)}</span>
+          </div>
+          <div class="progress-bar" style="height:10px">
+            <div class="progress-bar__fill" style="width:${incomePct}%;background:var(--gradient-success)"></div>
+          </div>
+          <p style="font-size:var(--font-size-xs);color:var(--text-muted);margin-top:var(--space-1)">
+            ${incomeRemain > 0 ? `${formatCurrency(incomeRemain)} lagi menuju target` : 'Target tercapai!'}
+          </p>
+        </div>
+        <div>
+          <div class="progress-label">
+            <span>Batas Pengeluaran</span>
+            <span>${formatCurrency(monthTotals.expense)} / ${formatCurrency(budget.expense)}</span>
+          </div>
+          <div class="progress-bar" style="height:10px">
+            <div class="progress-bar__fill ${expensePct > 90 ? 'progress-bar__fill--danger' : ''}" style="width:${expensePct}%;background:var(--gradient-primary)"></div>
+          </div>
+          <p style="font-size:var(--font-size-xs);color:var(--text-muted);margin-top:var(--space-1)">
+            ${expenseRemain > 0 ? `Sisa ${formatCurrency(expenseRemain)}` : 'Melebihi batas!'}
+          </p>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
 
 
 export function initFinance() {
@@ -296,6 +351,8 @@ function renderFinance(container) {
 
 
 
+      ${renderBudgetCard(monthTotals)}
+
       <div class="fin-summary-grid">
 
         <div class="card fin-card">
@@ -424,6 +481,8 @@ function renderFinance(container) {
 
   container.querySelector('#add-expense-btn').addEventListener('click', () => showTransactionModal('expense'));
 
+  container.querySelector('#edit-budget-btn')?.addEventListener('click', showBudgetModal);
+
 
 
   container.querySelector('#finance-filter').addEventListener('change', (e) => {
@@ -487,6 +546,46 @@ function renderFinance(container) {
 }
 
 
+
+function showBudgetModal() {
+  const budget = getBudget();
+
+  const content = `
+    <form id="budget-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="budget-income">Target Pemasukan (Rp)</label>
+          <input class="form-input" id="budget-income" type="number" min="0" step="1000" value="${budget.income}" placeholder="0">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="budget-expense">Batas Pengeluaran (Rp)</label>
+          <input class="form-input" id="budget-expense" type="number" min="0" step="1000" value="${budget.expense}" placeholder="0">
+        </div>
+      </div>
+    </form>
+  `;
+
+  const footer = `
+    <button class="btn btn-secondary modal-cancel">Batal</button>
+    <button class="btn btn-primary" id="save-budget">Simpan Target</button>
+  `;
+
+  const { close, modal } = openModal({
+    title: 'Target Bulanan',
+    content,
+    footer
+  });
+
+  modal.querySelector('.modal-cancel').addEventListener('click', close);
+  modal.querySelector('#save-budget').addEventListener('click', () => {
+    const income = parseInt(modal.querySelector('#budget-income').value) || 0;
+    const expense = parseInt(modal.querySelector('#budget-expense').value) || 0;
+    setBudget(income, expense);
+    showToast('Target bulanan disimpan', 'success');
+    close();
+    renderFinance(document.getElementById('page-container'));
+  });
+}
 
 function showTransactionModal(type, transaction = null) {
 
