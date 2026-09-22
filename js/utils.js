@@ -324,7 +324,10 @@ export function debounce(fn, delay = 300) {
 }
 
 export function animateValue(element, start, end, duration = 800, decimals = 2) {
+<<<<<<< HEAD
   if (!element) return;
+=======
+>>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
   const startTime = performance.now();
   const update = (currentTime) => {
     const elapsed = currentTime - startTime;
@@ -336,6 +339,7 @@ export function animateValue(element, start, end, duration = 800, decimals = 2) 
   };
   requestAnimationFrame(update);
 }
+<<<<<<< HEAD
 
 export function createCustomSelect(options, {
   value = '',
@@ -439,3 +443,5 @@ export function createCustomSelect(options, {
 
   return selectEl;
 }
+=======
+>>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff

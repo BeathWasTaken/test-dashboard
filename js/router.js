@@ -6,12 +6,15 @@ export function registerRoute(name, handler) {
   routes[name] = handler;
 }
 
+<<<<<<< HEAD
 function getPageFromPath() {
   const path = window.location.pathname;
   const page = path.split('/').filter(Boolean)[0] || 'dashboard';
   return page;
 }
 
+=======
+>>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
 function renderPage(page) {
   const container = document.getElementById('page-container');
   if (!container) return;
@@ -45,9 +48,19 @@ function renderPage(page) {
   }
 }
 
+<<<<<<< HEAD
 export function navigate(page, { updatePath = true } = {}) {
   if (page === 'exams') {
     page = 'finance';
+=======
+export function navigate(page, { updateHash = true } = {}) {
+  if (page === 'exams') {
+    page = 'finance';
+    if (updateHash) {
+      window.location.hash = page;
+      return;
+    }
+>>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
   }
 
   if (!routes[page]) {
@@ -56,19 +69,33 @@ export function navigate(page, { updatePath = true } = {}) {
 
   state.setPage(page);
 
+<<<<<<< HEAD
   const currentPage = getPageFromPath();
 
   if (updatePath && currentPage !== page) {
     history.pushState({ page }, '', `/${page}`);
+=======
+  const currentHash = window.location.hash.slice(1) || 'dashboard';
+
+  if (updateHash && currentHash !== page) {
+    window.location.hash = page;
+    return;
+>>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
   }
 
   renderPage(page);
 }
 
 export function initRouter() {
+<<<<<<< HEAD
   window.addEventListener('popstate', (e) => {
     const page = getPageFromPath();
     navigate(page, { updatePath: false });
+=======
+  window.addEventListener('hashchange', () => {
+    const page = window.location.hash.slice(1) || 'dashboard';
+    navigate(page, { updateHash: false });
+>>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
   });
 
   document.querySelectorAll('[data-nav]').forEach(link => {
@@ -84,6 +111,7 @@ export function initRouter() {
     }
   });
 
+<<<<<<< HEAD
   // Update links to use clean paths
   document.querySelectorAll('[data-nav]').forEach(link => {
     const page = link.dataset.nav;
@@ -92,6 +120,15 @@ export function initRouter() {
 
   const page = getPageFromPath();
   navigate(page, { updatePath: false });
+=======
+  const page = window.location.hash.slice(1) || 'dashboard';
+
+  if (!window.location.hash) {
+    history.replaceState(null, '', `#${page}`);
+  }
+
+  navigate(page, { updateHash: false });
+>>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
 }
 
 export function closeSidebar() {

@@ -112,6 +112,7 @@
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
 }
 
+<<<<<<< HEAD
 .sidebar__route {
   margin-left: auto;
   font-size: var(--font-size-xs);
@@ -131,6 +132,8 @@
   opacity: 1;
 }
 
+=======
+>>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
 .sidebar__footer {
   padding: var(--space-4) var(--space-5);
   border-top: 1px solid var(--border-light);

@@ -2,7 +2,10 @@ import { state } from './state.js';
 import { initRouter, openSidebar, closeSidebar } from './router.js';
 import { debounce } from './utils.js';
 import { showToast } from './components/toast.js';
+<<<<<<< HEAD
 import { initAuth } from './modules/auth.js';
+=======
+>>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
 
 import { initDashboard } from './modules/dashboard.js';
 import { initGrades } from './modules/grades.js';
@@ -19,6 +22,7 @@ function initSplash() {
     const splash = document.getElementById('splash');
     const app = document.getElementById('app');
 
+<<<<<<< HEAD
     // If splash already removed, just resolve
     if (!splash) {
       resolve();
@@ -34,6 +38,12 @@ function initSplash() {
       // Just fade out splash, DON'T show app yet
       // App will be shown by auth flow (hideAuthScreen or onAuthSuccess)
       splash.classList.add('fade-out');
+=======
+    const finish = () => {
+      splash.classList.add('fade-out');
+      app.classList.remove('hidden');
+      app.removeAttribute('aria-hidden');
+>>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
       setTimeout(() => {
         splash.remove();
         resolve();
@@ -153,6 +163,7 @@ function handleResize() {
   }
 }
 
+<<<<<<< HEAD
 export async function init() {
   const data = state.get();
   const isAuthenticated = data.profile && data.profile.authenticated;
@@ -161,6 +172,9 @@ export async function init() {
     return;
   }
   
+=======
+async function init() {
+>>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
   applyTheme(state.get().settings?.theme || 'light');
 
   initDashboard();
@@ -173,6 +187,11 @@ export async function init() {
   initSettings();
   initNotifications();
 
+<<<<<<< HEAD
+=======
+  await initSplash();
+
+>>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
   applyTheme(state.get().settings.theme || 'light');
   updateSidebarUser();
   initSidebar();
@@ -191,6 +210,7 @@ export async function init() {
   });
 }
 
+<<<<<<< HEAD
 async function initApp() {
   // Hide app immediately to prevent flash
   const app = document.getElementById('app');
@@ -205,3 +225,6 @@ async function initApp() {
 }
 
 document.addEventListener('DOMContentLoaded', initApp);
+=======
+document.addEventListener('DOMContentLoaded', init);
+>>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff

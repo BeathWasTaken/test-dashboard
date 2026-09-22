@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {
   state } from '../state.js';
  
@@ -14,6 +15,23 @@ import {
    getDayName, detectConflicts, buildScheduleGCalUrl, matchesDay, createCustomSelect
  
  } from '../utils.js';
+=======
+import { state } from '../state.js';
+
+import { registerRoute } from '../router.js';
+
+import { openModal, confirmDialog } from '../components/modal.js';
+
+import { showToast } from '../components/toast.js';
+
+import {
+
+  DAYS, DAYS_SHORT, generateId, escapeHtml, formatTime, buildCourseSelectHtml,
+
+  getDayName, detectConflicts, buildScheduleGCalUrl, matchesDay
+
+} from '../utils.js';
+>>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
 
 
 
@@ -92,10 +110,26 @@ function renderYearSelector() {
   return `
 
     <div class="filters-bar" style="margin-top:var(--space-4)">
+<<<<<<< HEAD
       <label style="display:flex;align-items:center;gap:var(--space-2);font-size:var(--font-size-sm);color:var(--text-muted)">
         Tahun Akademik
         <div id="schedule-year-filter-container" style="width:auto"></div>
       </label>
+=======
+
+      <label style="display:flex;align-items:center;gap:var(--space-2);font-size:var(--font-size-sm);color:var(--text-muted)">
+
+        Tahun Akademik
+
+        <select class="form-select" id="schedule-year-filter" style="width:auto">
+
+          ${years.map(y => `<option value="${y}" ${y === current ? 'selected' : ''}>${y}/${y + 1}</option>`).join('')}
+
+        </select>
+
+      </label>
+
+>>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
     </div>
 
   `;
@@ -278,7 +312,11 @@ function renderWeeklyView(schedule, conflicts, hours) {
 
       events.forEach(e => {
 
+<<<<<<< HEAD
         const color = conflicts.has(e._id || e.id) ? 'cal__event--conflict' : '';
+=======
+        const color = conflicts.has(e.id) ? 'cal__event--conflict' : '';
+>>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
 
         html += `
 
@@ -332,7 +370,11 @@ function renderDailyView(schedule, today, conflicts) {
 
         ${todayClasses.length ? todayClasses.map(c => `
 
+<<<<<<< HEAD
           <div class="daily-class ${conflicts.has(c._id || c.id) ? 'conflict' : ''}">
+=======
+          <div class="daily-class ${conflicts.has(c.id) ? 'conflict' : ''}">
+>>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
 
             <div class="daily-class__time">${formatTime(c.startTime)}<br><small style="color:var(--text-muted)">${formatTime(c.endTime)}</small></div>
 
@@ -346,11 +388,19 @@ function renderDailyView(schedule, today, conflicts) {
 
             <div class="schedule-item-actions">
 
+<<<<<<< HEAD
               <button type="button" class="btn btn-ghost btn-sm edit-schedule" data-id="${c._id || c.id}">Ubah</button>
 
               <button type="button" class="btn btn-ghost btn-sm delete-schedule" data-id="${c._id || c.id}" style="color:var(--color-danger)">Hapus</button>
 
               <button type="button" class="btn-gcal add-gcal" data-id="${c._id || c.id}" title="Google Calendar">📅</button>
+=======
+              <button type="button" class="btn btn-ghost btn-sm edit-schedule" data-id="${c.id}">Ubah</button>
+
+              <button type="button" class="btn btn-ghost btn-sm delete-schedule" data-id="${c.id}" style="color:var(--color-danger)">Hapus</button>
+
+              <button type="button" class="btn-gcal add-gcal" data-id="${c.id}" title="Google Calendar">📅</button>
+>>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
 
             </div>
 
@@ -370,7 +420,11 @@ function renderDailyView(schedule, today, conflicts) {
 
 function showDetailModal(id) {
 
+<<<<<<< HEAD
   const item = state.get().schedule.find(s => s._id || s.id === id);
+=======
+  const item = state.get().schedule.find(s => s.id === id);
+>>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
 
   if (!item) return;
 
@@ -504,7 +558,11 @@ function showDetailModal(id) {
 
 function openGCalForSchedule(id) {
 
+<<<<<<< HEAD
   const item = state.get().schedule.find(s => s._id || s.id === id);
+=======
+  const item = state.get().schedule.find(s => s.id === id);
+>>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
 
   if (!item) return;
 
@@ -554,7 +612,11 @@ function bindScheduleEvents(container) {
 
     btn.addEventListener('click', () => {
 
+<<<<<<< HEAD
       const item = state.get().schedule.find(s => s._id || s.id === btn.dataset.id);
+=======
+      const item = state.get().schedule.find(s => s.id === btn.dataset.id);
+>>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
 
       if (item) showScheduleModal(item);
 
@@ -810,13 +872,21 @@ function showScheduleModal(item = null) {
 
     if (isEdit) {
 
+<<<<<<< HEAD
       state.updateScheduleItem(item._id || item.id, payload);
+=======
+      state.updateScheduleItem(item.id, payload);
+>>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
 
       showToast('Kelas diperbarui', 'success');
 
     } else {
 
+<<<<<<< HEAD
       state.addScheduleItem(payload);
+=======
+      state.addScheduleItem({ id: generateId(), ...payload });
+>>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
 
       showToast('Kelas ditambahkan', 'success');
 
