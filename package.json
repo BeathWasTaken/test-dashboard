@@ -1,0 +1,39 @@
+{
+  "name": "campusify",
+  "version": "1.0.0",
+  "description": "Dasbor akademik lengkap untuk mahasiswa",
+  "main": "index.html",
+  "type": "module",
+  "scripts": {
+    "dev": "npx serve . -l 3000",
+    "dev:api": "node api/dev-server.js",
+    "build": "echo 'Static site, no build needed'",
+    "start": "npx serve . -l 3000"
+  },
+  "keywords": [
+    "academic",
+    "dashboard",
+    "student",
+    "grades",
+    "schedule",
+    "assignments",
+    "finance"
+  ],
+  "author": "Developer",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.18.0",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^8.0.0"
+  },
+  "devDependencies": {
+    "mongodb-memory-server": "^11.3.0",
+    "serve": "^14.2.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
