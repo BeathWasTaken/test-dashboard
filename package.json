@@ -3,15 +3,10 @@
   "version": "1.0.0",
   "description": "Dasbor akademik lengkap untuk mahasiswa",
   "main": "index.html",
-<<<<<<< HEAD
   "type": "module",
   "scripts": {
     "dev": "npx serve . -l 3000",
     "dev:api": "node api/dev-server.js",
-=======
-  "scripts": {
-    "dev": "npx serve . -l 3000",
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
     "build": "echo 'Static site, no build needed'",
     "start": "npx serve . -l 3000"
   },
@@ -26,7 +21,6 @@
   ],
   "author": "Developer",
   "license": "MIT",
-<<<<<<< HEAD
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
@@ -37,16 +31,9 @@
   },
   "devDependencies": {
     "mongodb-memory-server": "^11.3.0",
-=======
-  "devDependencies": {
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
     "serve": "^14.2.1"
   },
   "engines": {
     "node": ">=18.0.0"
   }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
