@@ -19,14 +19,14 @@ async function connectDB() {
     return connectionPromise;
   }
 
-  // Read env vars at runtime (after dotenv.config())
+  // Read env vars at runtime
   const MONGODB_URI = process.env.MONGODB_URI;
   const NODE_ENV = process.env.NODE_ENV || 'development';
 
   const opts = {
     bufferCommands: false,
     maxPoolSize: 10,
-    serverSelectionTimeoutMS: 5000,
+    serverSelectionTimeoutMS: 10000,
     socketTimeoutMS: 45000,
   };
 
@@ -40,7 +40,7 @@ async function connectDB() {
   }
 
   if (!uri) {
-    throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
+    throw new Error('Please define the MONGODB_URI environment variable');
   }
 
   async function attemptConnection(connectionUri) {
@@ -52,9 +52,9 @@ async function connectDB() {
 
   connectionPromise = attemptConnection(uri).catch(async (e) => {
     connectionPromise = null;
-    console.warn('Failed to connect to MongoDB:', e.message);
+    console.error('Failed to connect to MongoDB:', e.message);
     
-    // Fallback to in-memory MongoDB in development
+    // Fallback to in-memory MongoDB ONLY in development
     if (NODE_ENV === 'development' && MONGODB_URI) {
       console.log('Falling back to in-memory MongoDB...');
       mongoServer = await MongoMemoryServer.create();
