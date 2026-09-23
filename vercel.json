@@ -6,14 +6,13 @@
   "framework": null,
   "outputDirectory": ".",
   "functions": {
-    "api/index.js": {
-      "maxDuration": 30
-    }
+    "api/auth/index.js": { "maxDuration": 30 },
+    "api/data/index.js": { "maxDuration": 30 }
   },
   "rewrites": [
     {
-      "source": "/api/(.*)",
-      "destination": "/api/index.js"
+      "source": "/(.*)",
+      "destination": "/$1"
     }
   ]
 }

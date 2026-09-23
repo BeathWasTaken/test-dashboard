@@ -49,18 +49,18 @@ class ApiClient {
 
   // Auth endpoints
   async register(name, email, password) {
-    const data = await this.request('?route=auth', {
+    const data = await this.request('/auth/register', {
       method: 'POST',
-      body: JSON.stringify({ action: 'register', name, email, password })
+      body: JSON.stringify({ name, email, password })
     });
     if (data.token) this.setToken(data.token);
     return data;
   }
 
   async login(email, password) {
-    const data = await this.request('?route=auth', {
+    const data = await this.request('/auth/login', {
       method: 'POST',
-      body: JSON.stringify({ action: 'login', email, password })
+      body: JSON.stringify({ email, password })
     });
     if (data.token) this.setToken(data.token);
     return data;
@@ -72,11 +72,11 @@ class ApiClient {
   }
 
   async getProfile() {
-    return this.request('?route=auth', { method: 'GET' });
+    return this.request('/auth', { method: 'GET' });
   }
 
   async updateProfile(profile, settings) {
-    return this.request('?route=auth', {
+    return this.request('/auth', {
       method: 'PUT',
       body: JSON.stringify({ profile, settings })
     });
@@ -84,25 +84,25 @@ class ApiClient {
 
   // Data endpoints
   async getAllData() {
-    return this.request('?route=data', { method: 'GET' });
+    return this.request('/data', { method: 'GET' });
   }
 
   async updateData(type, data, id = null) {
-    return this.request('?route=data', {
+    return this.request('/data', {
       method: 'PUT',
       body: JSON.stringify({ type, data, id })
     });
   }
 
   async createData(type, data) {
-    return this.request('?route=data', {
+    return this.request('/data', {
       method: 'POST',
       body: JSON.stringify({ type, data })
     });
   }
 
   async deleteData(type, id) {
-    return this.request('?route=data', {
+    return this.request('/data', {
       method: 'DELETE',
       body: JSON.stringify({ type, id })
     });
