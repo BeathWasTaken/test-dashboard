@@ -7,11 +7,7 @@ import {
   GRADE_OPTIONS, GRADE_SCALE, generateId, escapeHtml,
   calculateGPA, calculateCGPA, getTotalCredits, getGPATrend,
   getGradeDistribution, getCreditAccumulation, animateValue,
-<<<<<<< HEAD
   getGradeScale, getGradePoints, createCustomSelect
-=======
-  getGradeScale, getGradePoints
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
 } from '../utils.js';
 
 export function initGrades() {
@@ -126,14 +122,7 @@ function renderGrades(container) {
         <div class="section-header">
           <h2 class="section-title">Daftar Mata Kuliah</h2>
           <div class="filters-bar" style="margin:0">
-<<<<<<< HEAD
             <div id="semester-filter-container"></div>
-=======
-            <select class="form-select" id="semester-filter">
-              <option value="all" ${filterSemester === 'all' ? 'selected' : ''}>Semua Semester</option>
-              ${semesters.map(s => `<option value="${s}" ${filterSemester == s ? 'selected' : ''}>Semester ${s}</option>`).join('')}
-            </select>
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
           </div>
         </div>
 
@@ -158,11 +147,7 @@ function renderGrades(container) {
             </thead>
             <tbody id="courses-tbody">
               ${filtered.length ? filtered.map(c => `
-<<<<<<< HEAD
-                <tr data-course-id="${c._id || c.id}">
-=======
-                <tr data-course-id="${c.id}">
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
+<tr data-course-id="${c._id || c.id}">
                   <td><strong>${escapeHtml(c.name)}</strong></td>
                   <td>Sem ${c.semester}</td>
                   <td>${c.credits}</td>
@@ -170,13 +155,8 @@ function renderGrades(container) {
                   <td class="course-bobot">${getGradePoints(c.grade, gradeScale).toFixed(2)}</td>
                   <td class="table__actions-cell">
                     <div class="table-actions table-actions--compact">
-<<<<<<< HEAD
                       <button type="button" class="btn btn-secondary btn-sm edit-course" data-id="${c._id || c.id}">Ubah</button>
                       <button type="button" class="btn btn-ghost btn-sm delete-course" data-id="${c._id || c.id}">Hapus</button>
-=======
-                      <button type="button" class="btn btn-secondary btn-sm edit-course" data-id="${c.id}">Ubah</button>
-                      <button type="button" class="btn btn-ghost btn-sm delete-course" data-id="${c.id}">Hapus</button>
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
                     </div>
                   </td>
                 </tr>
@@ -211,7 +191,6 @@ function renderGrades(container) {
 
   requestAnimationFrame(() => {
     initCharts(container);
-<<<<<<< HEAD
     animateValue(container.querySelector('#gpa-value'), 0, currentIP);
     animateValue(container.querySelector('#cgpa-value'), 0, ipk);
   });
@@ -231,12 +210,6 @@ function renderGrades(container) {
   });
   container.querySelector('#semester-filter-container').appendChild(semesterSelect);
 
-=======
-    animateValue(document.getElementById('gpa-value'), 0, currentIP);
-    animateValue(document.getElementById('cgpa-value'), 0, ipk);
-  });
-
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
   function readScaleFromForm() {
     const scale = {};
     container.querySelectorAll('.grade-scale-input').forEach(input => {
@@ -294,13 +267,6 @@ function renderGrades(container) {
   });
 
   container.querySelector('#add-course-btn').addEventListener('click', () => showCourseModal());
-<<<<<<< HEAD
-=======
-  container.querySelector('#semester-filter').addEventListener('change', (e) => {
-    filterSemester = e.target.value;
-    renderGrades(container);
-  });
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
 
   container.querySelectorAll('.edit-course').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -368,11 +334,8 @@ function showCourseModal(course = null) {
   });
 
   modal.querySelector('.modal-cancel').addEventListener('click', close);
-<<<<<<< HEAD
   modal.querySelector('#save-course').addEventListener('click', async () => {
-=======
   modal.querySelector('#save-course').addEventListener('click', () => {
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
     const name = modal.querySelector('#course-name').value.trim();
     const credits = parseInt(modal.querySelector('#course-credits').value);
     const semester = parseInt(modal.querySelector('#course-semester').value);
@@ -380,7 +343,6 @@ function showCourseModal(course = null) {
 
     if (!name) return showToast('Masukkan nama mata kuliah', 'error');
 
-<<<<<<< HEAD
     const courseId = course._id || course.id;
 
     try {
@@ -396,7 +358,6 @@ function showCourseModal(course = null) {
     } catch (error) {
       showToast('Gagal menyimpan mata kuliah', 'error');
     }
-=======
     if (isEdit) {
       state.updateCourse(course.id, { name, credits, semester, grade });
       showToast('Mata kuliah diperbarui', 'success');
@@ -407,6 +368,5 @@ function showCourseModal(course = null) {
 
     close();
     renderGrades(document.getElementById('page-container'));
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
   });
 }

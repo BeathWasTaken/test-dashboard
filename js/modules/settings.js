@@ -6,10 +6,7 @@ import { exportDataToExcel } from '../export-excel.js';
 import { importDataFromExcel } from '../import-excel.js';
 import { confirmDialog } from '../components/modal.js';
 import { escapeHtml, getInitials, resizeAvatarImage } from '../utils.js';
-<<<<<<< HEAD
 import { logout } from './auth.js';
-=======
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
 
 export function initSettings() {
   registerRoute('settings', renderSettings);
@@ -131,7 +128,6 @@ function renderSettings(container) {
       </div>
 
       <div class="settings-section">
-<<<<<<< HEAD
         <h2 class="settings-section__title">Akun</h2>
         <div class="card">
           <p style="margin-bottom:var(--space-5);color:var(--text-secondary)">Kelola akun Anda.</p>
@@ -143,8 +139,6 @@ function renderSettings(container) {
       </div>
 
       <div class="settings-section">
-=======
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
         <h2 class="settings-section__title">Tentang</h2>
         <div class="card">
           <p style="color:var(--text-secondary);margin-bottom:var(--space-2)"><strong>Campusify</strong> v1.0.0</p>
@@ -250,11 +244,8 @@ function renderSettings(container) {
       renderSettings(container);
     }
   });
-<<<<<<< HEAD
 
   container.querySelector('#logout-btn').addEventListener('click', logout);
-=======
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
 }
 
 export function applyTheme(theme) {

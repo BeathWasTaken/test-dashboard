@@ -5,11 +5,7 @@ import { showToast } from '../components/toast.js';
 import { tPriority, tStatus } from '../i18n.js';
 import {
   PRIORITIES, STATUSES, generateId, escapeHtml, buildCourseSelectHtml,
-<<<<<<< HEAD
   formatDate, daysUntil, buildGoogleCalendarUrl, createCustomSelect
-=======
-  formatDate, daysUntil, buildGoogleCalendarUrl
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
 } from '../utils.js';
 
 export function initAssignments() {
@@ -88,25 +84,9 @@ function renderAssignments(container) {
 
       <div class="filters-bar">
         <input class="form-input" id="assign-search" type="search" placeholder="Cari tugas..." value="${escapeHtml(filters.search)}">
-<<<<<<< HEAD
         <div id="assign-status-container"></div>
         <div id="assign-priority-container"></div>
         <div id="assign-sort-container"></div>
-=======
-        <select class="form-select" id="assign-status">
-          <option value="all" ${filters.status === 'all' ? 'selected' : ''}>Semua Status</option>
-          ${STATUSES.map(s => `<option value="${s}" ${filters.status === s ? 'selected' : ''}>${tStatus(s)}</option>`).join('')}
-        </select>
-        <select class="form-select" id="assign-priority">
-          <option value="all" ${filters.priority === 'all' ? 'selected' : ''}>Semua Prioritas</option>
-          ${PRIORITIES.map(p => `<option value="${p}" ${filters.priority === p ? 'selected' : ''}>${tPriority(p)}</option>`).join('')}
-        </select>
-        <select class="form-select" id="assign-sort">
-          <option value="deadline" ${filters.sort === 'deadline' ? 'selected' : ''}>Urutkan Tenggat</option>
-          <option value="priority" ${filters.sort === 'priority' ? 'selected' : ''}>Urutkan Prioritas</option>
-          <option value="title" ${filters.sort === 'title' ? 'selected' : ''}>Urutkan Judul</option>
-        </select>
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
       </div>
 
       <div id="assignments-list">
@@ -125,19 +105,11 @@ function renderAssignments(container) {
               <span class="badge priority-${a.priority}">${tPriority(a.priority)}</span>
               <span class="badge status-${a.status === 'in-progress' ? 'progress' : a.status}">${tStatus(a.status)}</span>
               <div class="table-actions">
-<<<<<<< HEAD
                 <select class="form-select btn-sm status-select" data-id="${a._id || a.id}" style="width:auto">
                   ${STATUSES.map(s => `<option value="${s}" ${a.status === s ? 'selected' : ''}>${tStatus(s)}</option>`).join('')}
                 </select>
                 <button class="btn btn-ghost btn-sm edit-assignment" data-id="${a._id || a.id}">Ubah</button>
                 <button class="btn btn-ghost btn-sm delete-assignment" data-id="${a._id || a.id}" style="color:var(--color-danger)">Hapus</button>
-=======
-                <select class="form-select btn-sm status-select" data-id="${a.id}" style="width:auto">
-                  ${STATUSES.map(s => `<option value="${s}" ${a.status === s ? 'selected' : ''}>${tStatus(s)}</option>`).join('')}
-                </select>
-                <button class="btn btn-ghost btn-sm edit-assignment" data-id="${a.id}">Ubah</button>
-                <button class="btn btn-ghost btn-sm delete-assignment" data-id="${a.id}" style="color:var(--color-danger)">Hapus</button>
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
                 <a class="btn-gcal" href="${buildGoogleCalendarUrl({ title: a.title, description: a.description || a.course, date: a.deadline, startTime: '23:59', endTime: '23:59' })}" target="_blank" rel="noopener">📅</a>
               </div>
             </div>
@@ -161,7 +133,6 @@ function renderAssignments(container) {
     filters.search = e.target.value;
     renderAssignments(container);
   });
-<<<<<<< HEAD
 
   // Initialize custom selects for filters
   const statusOptions = [
@@ -210,24 +181,6 @@ function renderAssignments(container) {
   container.querySelectorAll('.edit-assignment').forEach(btn => {
     btn.addEventListener('click', () => {
       const a = data.assignments.find(x => (x._id || x.id) === btn.dataset.id);
-=======
-  container.querySelector('#assign-status').addEventListener('change', (e) => {
-    filters.status = e.target.value;
-    renderAssignments(container);
-  });
-  container.querySelector('#assign-priority').addEventListener('change', (e) => {
-    filters.priority = e.target.value;
-    renderAssignments(container);
-  });
-  container.querySelector('#assign-sort').addEventListener('change', (e) => {
-    filters.sort = e.target.value;
-    renderAssignments(container);
-  });
-
-  container.querySelectorAll('.edit-assignment').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const a = data.assignments.find(x => x.id === btn.dataset.id);
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
       if (a) showAssignmentModal(a);
     });
   });
@@ -359,11 +312,7 @@ function showAssignmentModal(assignment = null) {
   });
 
   modal.querySelector('.modal-cancel').addEventListener('click', close);
-<<<<<<< HEAD
   modal.querySelector('#save-assignment').addEventListener('click', async () => {
-=======
-  modal.querySelector('#save-assignment').addEventListener('click', () => {
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
     const title = modal.querySelector('#assign-title').value.trim();
     const course = modal.querySelector('#assign-course').value.trim();
     const deadline = modal.querySelector('#assign-deadline').value;
@@ -374,7 +323,6 @@ function showAssignmentModal(assignment = null) {
     if (!title || !course || !deadline) return showToast('Lengkapi kolom wajib', 'error');
 
     const payload = { title, course, deadline, priority, status, description, file: fileAttachment };
-<<<<<<< HEAD
     const assignmentId = assignment._id || assignment.id;
 
     try {
@@ -390,18 +338,5 @@ function showAssignmentModal(assignment = null) {
     } catch (error) {
       showToast('Gagal menyimpan tugas', 'error');
     }
-=======
-
-    if (isEdit) {
-      state.updateAssignment(assignment.id, payload);
-      showToast('Tugas diperbarui', 'success');
-    } else {
-      state.addAssignment({ id: generateId(), ...payload });
-      showToast('Tugas dibuat', 'success');
-    }
-
-    close();
-    renderAssignments(document.getElementById('page-container'));
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
   });
 }

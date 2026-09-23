@@ -7,13 +7,7 @@ import { openModal, confirmDialog } from '../components/modal.js';
 import { showToast } from '../components/toast.js';
 
 import {
-<<<<<<< HEAD
   generateId, escapeHtml, formatDate, formatCurrency, createCustomSelect
-=======
-
-  generateId, escapeHtml, formatDate, formatCurrency
-
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
 } from '../utils.js';
 
 
@@ -410,21 +404,7 @@ function renderFinance(container) {
 
 
       <div class="filters-bar" style="margin-top:var(--space-8)">
-<<<<<<< HEAD
         <div id="finance-filter-container"></div>
-=======
-
-        <select class="form-select" id="finance-filter">
-
-          <option value="all">Semua</option>
-
-          <option value="income">Pemasukan</option>
-
-          <option value="expense">Pengeluaran</option>
-
-        </select>
-
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
       </div>
 
 
@@ -457,15 +437,9 @@ function renderFinance(container) {
 
             <div class="table-actions">
 
-<<<<<<< HEAD
               <button class="btn btn-ghost btn-sm edit-transaction" data-id="${t._id || t.id}">Ubah</button>
 
               <button class="btn btn-ghost btn-sm delete-transaction" data-id="${t._id || t.id}" style="color:var(--color-danger)">Hapus</button>
-=======
-              <button class="btn btn-ghost btn-sm edit-transaction" data-id="${t.id}">Ubah</button>
-
-              <button class="btn btn-ghost btn-sm delete-transaction" data-id="${t.id}" style="color:var(--color-danger)">Hapus</button>
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
 
             </div>
 
@@ -488,24 +462,13 @@ function renderFinance(container) {
     </div>
 
   `;
-<<<<<<< HEAD
-container.querySelector('#add-income-btn').addEventListener('click', () => showTransactionModal('income'));
-=======
-
-
-
   container.querySelector('#add-income-btn').addEventListener('click', () => showTransactionModal('income'));
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
-
   container.querySelector('#add-expense-btn').addEventListener('click', () => showTransactionModal('expense'));
-
   container.querySelector('#edit-budget-btn')?.addEventListener('click', showBudgetModal);
 
 
 
-<<<<<<< HEAD
-
-  // Initialize custom select for finance filter
+// Initialize custom select for finance filter
   const financeOptions = [
     { value: 'all', label: 'Semua' },
     { value: 'income', label: 'Pemasukan' },
@@ -522,15 +485,6 @@ container.querySelector('#add-income-btn').addEventListener('click', () => showT
   });
   container.querySelector('#finance-filter-container').appendChild(financeSelect);
 
-=======
-  container.querySelector('#finance-filter').addEventListener('change', (e) => {
-
-    const val = e.target.value;
-
-    container.querySelectorAll('#finance-list .list-item').forEach(item => {
-
-      item.style.display = val === 'all' || item.dataset.type === val ? '' : 'none';
-
     });
 
   });
@@ -539,16 +493,9 @@ container.querySelector('#add-income-btn').addEventListener('click', () => showT
 
 
   container.querySelectorAll('.edit-transaction').forEach(btn => {
-<<<<<<< HEAD
     btn.addEventListener('click', () => {
 
       const t = transactions.find(x => (x._id || x.id) === btn.dataset.id);
-=======
-
-    btn.addEventListener('click', () => {
-
-      const t = transactions.find(x => x.id === btn.dataset.id);
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
 
       if (t) showTransactionModal(t.type, t);
 
@@ -756,20 +703,13 @@ function showTransactionModal(type, transaction = null) {
 
     if (isEdit) {
 
-<<<<<<< HEAD
       state.updateTransaction(transaction._id || transaction.id, payload);
-=======
-      state.updateTransaction(transaction.id, payload);
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
 
       showToast('Transaksi diperbarui', 'success');
 
     } else {
 
-<<<<<<< HEAD
       state.addTransaction(payload);
-=======
-      state.addTransaction({ id: generateId(), ...payload });
 >>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
 
       showToast('Transaksi ditambahkan', 'success');

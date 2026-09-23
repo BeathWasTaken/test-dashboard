@@ -106,21 +106,13 @@ function renderMilestoneCard(m) {
 
           <span class="badge badge--success milestone-card__status-badge">✓ Selesai</span>
 
-<<<<<<< HEAD
-          <button type="button" class="btn btn-secondary btn-sm unmark-milestone" data-id="${m._id || m.id}">Batalkan</button>
-=======
-          <button type="button" class="btn btn-secondary btn-sm unmark-milestone" data-id="${m.id}">Batalkan</button>
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
+<button type="button" class="btn btn-secondary btn-sm unmark-milestone" data-id="${m._id || m.id}">Batalkan</button>
 
         </div>`
 
       : `<div class="milestone-card__footer milestone-card__footer--action">
 
-<<<<<<< HEAD
-          <button type="button" class="btn btn-primary mark-milestone" data-id="${m._id || m.id}">Ya, Selesai!</button>
-=======
-          <button type="button" class="btn btn-primary mark-milestone" data-id="${m.id}">Ya, Selesai!</button>
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
+<button type="button" class="btn btn-primary mark-milestone" data-id="${m._id || m.id}">Ya, Selesai!</button>
 
         </div>`;
 
@@ -134,27 +126,12 @@ function renderMilestoneCard(m) {
 
           <label class="milestone-card__input-label">Progres saat ini</label>
 
-          <div class="milestone-card__input-row">
+<div class="milestone-card__input-row">
 
-<<<<<<< HEAD
             <input class="form-input milestone-current-input" type="number" min="0" step="${m.unit === 'currency' ? 1000 : 1}" value="${m.current}" data-id="${m._id || m.id}">
-=======
-            <input class="form-input milestone-current-input" type="number" min="0" step="${m.unit === 'currency' ? 1000 : 1}" value="${m.current}" data-id="${m.id}">
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
-
-            <span class="milestone-card__target-text">/ ${formatMilestoneTarget(m)}</span>
+            <button type="button" class="btn btn-primary update-milestone-current" data-id="${m._id || m.id}">Update</button>
 
           </div>
-
-        </div>
-
-<<<<<<< HEAD
-        <button type="button" class="btn btn-primary update-milestone-current" data-id="${m._id || m.id}">Update</button>
-=======
-        <button type="button" class="btn btn-primary update-milestone-current" data-id="${m.id}">Update</button>
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
-
-      </div>
 
     `;
 
@@ -176,11 +153,7 @@ function renderMilestoneCard(m) {
 
   return `
 
-<<<<<<< HEAD
     <div class="milestone-card ${achieved ? 'milestone-card--done' : ''}" data-id="${m._id || m.id}">
-=======
-    <div class="milestone-card ${achieved ? 'milestone-card--done' : ''}" data-id="${m.id}">
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
 
       <div class="milestone-card__header">
 
@@ -196,11 +169,7 @@ function renderMilestoneCard(m) {
 
           ${achieved ? '<span class="milestone-trophy" aria-hidden="true">🏆</span>' : ''}
 
-<<<<<<< HEAD
-          <button type="button" class="btn btn-ghost btn-sm delete-milestone" data-id="${m._id || m.id}" title="Hapus" aria-label="Hapus pencapaian">
-=======
-          <button type="button" class="btn btn-ghost btn-sm delete-milestone" data-id="${m.id}" title="Hapus" aria-label="Hapus pencapaian">
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
+<button type="button" class="btn btn-ghost btn-sm delete-milestone" data-id="${m._id || m.id}" title="Hapus" aria-label="Hapus pencapaian">
 
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
 
@@ -720,11 +689,7 @@ function showMilestoneModal() {
 
       state.addMilestone({
 
-<<<<<<< HEAD
         title, type: 'checkbox', target: 1, current: 0, completed: false
-=======
-        id: generateId(), title, type: 'checkbox', target: 1, current: 0, completed: false
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
 
       });
 
@@ -744,11 +709,7 @@ function showMilestoneModal() {
 
       state.addMilestone({
 
-<<<<<<< HEAD
         title, type: 'numeric', target, current,
-=======
-        id: generateId(), title, type: 'numeric', target, current,
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
 
         completed: current >= target, unit: isCurrency ? 'currency' : 'number'
 

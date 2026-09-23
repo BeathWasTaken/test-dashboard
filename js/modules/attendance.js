@@ -125,11 +125,7 @@ function renderAttendance(container) {
                   <td>${formatDate(r.date)}</td>
                   <td><span class="badge badge--${r.status === 'present' ? 'success' : r.status === 'absent' ? 'danger' : 'warning'}">${tAttendance(r.status)}</span></td>
                   <td>
-<<<<<<< HEAD
-                    <button class="btn btn-ghost btn-sm delete-attendance" data-id="${r._id || r.id}" style="color:var(--color-danger)">Hapus</button>
-=======
-                    <button class="btn btn-ghost btn-sm delete-attendance" data-id="${r.id}" style="color:var(--color-danger)">Hapus</button>
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
+<button class="btn btn-ghost btn-sm delete-attendance" data-id="${r._id || r.id}" style="color:var(--color-danger)">Hapus</button>
                   </td>
                 </tr>
               `).join('')}
@@ -212,11 +208,7 @@ function showAttendanceModal() {
 
     if (!course || !date) return showToast('Lengkapi kolom wajib', 'error');
 
-<<<<<<< HEAD
     state.addAttendance({ course, date, status });
-=======
-    state.addAttendance({ id: generateId(), course, date, status });
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
     showToast('Kehadiran dicatat', 'success');
     close();
     renderAttendance(document.getElementById('page-container'));

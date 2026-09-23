@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 const STORAGE_KEY_PREFIX = 'campusify_data_';
 const USERS_KEY = 'campusify_users';
-=======
-const STORAGE_KEY = 'campusify_data';
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
 
 export const defaultData = {
   profile: {
@@ -12,12 +8,8 @@ export const defaultData = {
     major: '',
     semester: 1,
     email: '',
-<<<<<<< HEAD
     avatar: null,
     authenticated: false
-=======
-    avatar: null
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
   },
   settings: {
     theme: 'light',
@@ -58,7 +50,6 @@ function getRelativeDate(daysOffset) {
   return d.toISOString().split('T')[0];
 }
 
-<<<<<<< HEAD
 function getStorageKey(email) {
   return email ? `${STORAGE_KEY_PREFIX}${email}` : null;
 }
@@ -69,11 +60,6 @@ export function loadData(email) {
     if (!key) return structuredClone(defaultData);
     
     const stored = localStorage.getItem(key);
-=======
-export function loadData() {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
     if (stored) {
       const parsed = JSON.parse(stored);
       const merged = {
@@ -98,17 +84,11 @@ export function loadData() {
   return structuredClone(defaultData);
 }
 
-<<<<<<< HEAD
 export function saveData(data, email) {
   try {
     const key = getStorageKey(email);
     if (!key) return false;
     localStorage.setItem(key, JSON.stringify(data));
-=======
-export function saveData(data) {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
     return true;
   } catch (e) {
     console.error('Failed to save data:', e);
@@ -116,20 +96,12 @@ export function saveData(data) {
   }
 }
 
-<<<<<<< HEAD
 export function exportData(data, email) {
-=======
-export function exportData(data) {
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-<<<<<<< HEAD
   a.download = `campusify-backup-${email || 'data'}-${new Date().toISOString().split('T')[0]}.json`;
-=======
-  a.download = `campusify-backup-${new Date().toISOString().split('T')[0]}.json`;
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
   a.click();
   URL.revokeObjectURL(url);
 }
@@ -150,7 +122,6 @@ export function importData(file) {
   });
 }
 
-<<<<<<< HEAD
 export function resetData(email) {
   const key = getStorageKey(email);
   if (key) localStorage.removeItem(key);
@@ -175,9 +146,3 @@ export function saveUsers(users) {
     return false;
   }
 }
-=======
-export function resetData() {
-  localStorage.removeItem(STORAGE_KEY);
-  return structuredClone(defaultData);
-}
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
