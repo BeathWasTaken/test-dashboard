@@ -1,6 +1,6 @@
-import connectDB from '../../lib/mongodb.js';
-import User from '../../models/User.js';
-import { verifyToken } from '../../middleware/auth.js';
+import connectDB from '../lib/mongodb.js';
+import User from '../models/User.js';
+import { verifyToken } from '../middleware/auth.js';
 
 function setCorsHeaders(res) {
   res.setHeader('Access-Control-Allow-Origin', '*');

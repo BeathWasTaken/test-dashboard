@@ -1,7 +1,7 @@
-import connectDB from '../../lib/mongodb.js';
-import User from '../../models/User.js';
+import connectDB from '../lib/mongodb.js';
+import User from '../models/User.js';
 import bcrypt from 'bcryptjs';
-import { generateToken, verifyToken } from '../../middleware/auth.js';
+import { generateToken, verifyToken } from '../middleware/auth.js';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secret-jwt-key-change-in-production';
 

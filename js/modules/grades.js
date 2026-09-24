@@ -335,7 +335,6 @@ function showCourseModal(course = null) {
 
   modal.querySelector('.modal-cancel').addEventListener('click', close);
   modal.querySelector('#save-course').addEventListener('click', async () => {
-  modal.querySelector('#save-course').addEventListener('click', () => {
     const name = modal.querySelector('#course-name').value.trim();
     const credits = parseInt(modal.querySelector('#course-credits').value);
     const semester = parseInt(modal.querySelector('#course-semester').value);
@@ -358,15 +357,5 @@ function showCourseModal(course = null) {
     } catch (error) {
       showToast('Gagal menyimpan mata kuliah', 'error');
     }
-    if (isEdit) {
-      state.updateCourse(course.id, { name, credits, semester, grade });
-      showToast('Mata kuliah diperbarui', 'success');
-    } else {
-      state.addCourse({ id: generateId(), name, credits, semester, grade });
-      showToast('Mata kuliah ditambahkan', 'success');
-    }
-
-    close();
-    renderGrades(document.getElementById('page-container'));
   });
 }

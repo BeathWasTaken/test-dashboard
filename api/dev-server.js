@@ -3,7 +3,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
-import apiHandler from './index.js';
+import authHandler from './auth/index.js';
+import dataHandler from './data/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -18,7 +19,8 @@ app.use(cors());
 app.use(express.json());
 
 // API routes
-app.use('/api', apiHandler);
+app.use('/api/auth', authHandler);
+app.use('/api/data', dataHandler);
 
 // Serve static files in production
 app.use(express.static(join(__dirname, '..')));

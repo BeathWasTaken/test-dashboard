@@ -12,6 +12,7 @@ import {
 
 
 
+
 const INCOME_CATEGORIES = ['Keluarga', 'Pekerjaan', 'Lainnya'];
 
 const EXPENSE_CATEGORIES = ['Kuliah', 'Makan', 'Transportasi', 'Pacaran', 'Hiburan', 'Lainnya'];
@@ -72,6 +73,9 @@ function renderBudgetCard(monthTotals) {
     </div>
   `;
 }
+
+
+
 
 
 
@@ -236,7 +240,6 @@ function renderRing(income, expense, balance) {
         : 'conic-gradient(var(--border-color) 0% 100%)';
 
 
-
   return `
 
     <div class="fin-ring-wrap">
@@ -350,7 +353,6 @@ function renderFinance(container) {
 
 
       ${renderBudgetCard(monthTotals)}
-
       <div class="fin-summary-grid">
 
         <div class="card fin-card">
@@ -468,6 +470,7 @@ function renderFinance(container) {
 
 
 
+
 // Initialize custom select for finance filter
   const financeOptions = [
     { value: 'all', label: 'Semua' },
@@ -484,13 +487,6 @@ function renderFinance(container) {
     }
   });
   container.querySelector('#finance-filter-container').appendChild(financeSelect);
-
-    });
-
-  });
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
-
-
 
   container.querySelectorAll('.edit-transaction').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -710,7 +706,6 @@ function showTransactionModal(type, transaction = null) {
     } else {
 
       state.addTransaction(payload);
->>>>>>> 758bb0f7a4fd2994fc20e234804d8fe9b28ee0ff
 
       showToast('Transaksi ditambahkan', 'success');
 
@@ -725,4 +720,3 @@ function showTransactionModal(type, transaction = null) {
   });
 
 }
-

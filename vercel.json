@@ -4,5 +4,31 @@
   "devCommand": "npm run dev:api",
   "installCommand": "npm install",
   "framework": null,
-  "outputDirectory": "."
+  "outputDirectory": ".",
+  "functions": {
+    "api/auth/index.js": {
+      "maxDuration": 30
+    },
+    "api/data/index.js": {
+      "maxDuration": 30
+    }
+  },
+  "routes": [
+    {
+      "src": "/api/auth/(.*)",
+      "dest": "/api/auth/index.js"
+    },
+    {
+      "src": "/api/data/(.*)",
+      "dest": "/api/data/index.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ],
+  "env": {
+    "MONGODB_URI": "@mongodb_uri",
+    "JWT_SECRET": "@jwt_secret"
+  }
 }
