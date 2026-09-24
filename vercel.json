@@ -16,11 +16,11 @@
   "rewrites": [
     {
       "source": "/api/auth/:path*",
-      "destination": "/api/auth/index.js?path=:path*"
+      "destination": "/api/auth/index.js"
     },
     {
       "source": "/api/data/:path*",
-      "destination": "/api/data/index.js?path=:path*"
+      "destination": "/api/data/index.js"
     }
   ]
 }

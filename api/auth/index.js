@@ -214,24 +214,34 @@ export default async function handler(req, res) {
     await connectDB();
 
     const method = req.method;
-    const path = req.query.path || '';
+    const path = req.url.split('?')[0];
 
-    if (path === 'register' && method === 'POST') {
+    console.log('AUTH REQUEST:', {
+      method,
+      url: req.url,
+      path
+    });
+
+    if (path.endsWith('/register') && method === 'POST') {
       return handleRegister(req, res);
     }
 
-    if (path === 'login' && method === 'POST') {
+    if (path.endsWith('/login') && method === 'POST') {
       return handleLogin(req, res);
     }
 
-    if (path === '' || path === '/') {
-      if (method === 'GET') {
-        return handleGetProfile(req, res);
-      }
+    if (
+      (path === '/api/auth' || path === '/api/auth/') &&
+      method === 'GET'
+    ) {
+      return handleGetProfile(req, res);
+    }
 
-      if (method === 'PUT') {
-        return handleUpdateProfile(req, res);
-      }
+    if (
+      (path === '/api/auth' || path === '/api/auth/') &&
+      method === 'PUT'
+    ) {
+      return handleUpdateProfile(req, res);
     }
 
     return res.status(404).json({
