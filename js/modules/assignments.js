@@ -105,9 +105,7 @@ function renderAssignments(container) {
               <span class="badge priority-${a.priority}">${tPriority(a.priority)}</span>
               <span class="badge status-${a.status === 'in-progress' ? 'progress' : a.status}">${tStatus(a.status)}</span>
               <div class="table-actions">
-                <select class="form-select btn-sm status-select" data-id="${a._id || a.id}" style="width:auto">
-                  ${STATUSES.map(s => `<option value="${s}" ${a.status === s ? 'selected' : ''}>${tStatus(s)}</option>`).join('')}
-                </select>
+                <div class="assign-status-container" data-assignment-id="${a._id || a.id}"></div>
                 <button class="btn btn-ghost btn-sm edit-assignment" data-id="${a._id || a.id}">Ubah</button>
                 <button class="btn btn-ghost btn-sm delete-assignment" data-id="${a._id || a.id}" style="color:var(--color-danger)">Hapus</button>
                 <a class="btn-gcal" href="${buildGoogleCalendarUrl({ title: a.title, description: a.description || a.course, date: a.deadline, startTime: '23:59', endTime: '23:59' })}" target="_blank" rel="noopener">📅</a>
@@ -178,6 +176,24 @@ function renderAssignments(container) {
   });
   container.querySelector('#assign-sort-container').appendChild(sortSelect);
 
+  // Initialize custom select for each assignment's status
+  const assignmentStatusOptions = STATUSES.map(s => ({ value: s, label: tStatus(s) }));
+  container.querySelectorAll('.assign-status-container').forEach(el => {
+    const assignmentId = el.dataset.assignmentId;
+    const assignment = data.assignments.find(x => (x._id || x.id) === assignmentId);
+    if (!assignment) return;
+    const select = createCustomSelect(assignmentStatusOptions, {
+      value: assignment.status,
+      placeholder: tStatus(assignment.status),
+      onChange: (val) => {
+        state.updateAssignment(assignmentId, { status: val });
+        showToast('Status diperbarui', 'success');
+        renderAssignments(container);
+      }
+    });
+    el.appendChild(select);
+  });
+
   container.querySelectorAll('.edit-assignment').forEach(btn => {
     btn.addEventListener('click', () => {
       const a = data.assignments.find(x => (x._id || x.id) === btn.dataset.id);
@@ -198,14 +214,6 @@ function renderAssignments(container) {
         showToast('Tugas dihapus', 'success');
         renderAssignments(container);
       }
-    });
-  });
-
-  container.querySelectorAll('.status-select').forEach(sel => {
-    sel.addEventListener('change', () => {
-      state.updateAssignment(sel.dataset.id, { status: sel.value });
-      showToast('Status diperbarui', 'success');
-      renderAssignments(container);
     });
   });
 }
