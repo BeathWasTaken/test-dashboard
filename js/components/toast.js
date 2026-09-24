@@ -13,7 +13,7 @@ export function showToast(message, type = 'info', duration = 3500) {
 
   toast.innerHTML = `${icons[type] || icons.info}<span>${message}</span>`;
   container.appendChild(toast);
-w
+
   setTimeout(() => {
     toast.style.animation = 'toastEnter 0.3s ease reverse';
     setTimeout(() => toast.remove(), 300);
