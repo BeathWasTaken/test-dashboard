@@ -216,7 +216,7 @@ function renderSchedule(container) {
         return showToast('Lengkapi data jadwal', 'error');
       }
 
-      const scheduleId = scheduleItem?._id || scheduleItem.id;
+      const scheduleId = scheduleItem?._id || scheduleItem?.id;
 
       try {
         if (isEdit) {
