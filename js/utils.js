@@ -351,6 +351,7 @@ export function createCustomSelect(options, {
 
   const selectEl = document.createElement('div');
   selectEl.className = `custom-select ${className}`.trim();
+
   selectEl.innerHTML = `
     <button type="button" class="custom-select__trigger" aria-expanded="false" aria-haspopup="listbox" role="combobox">
       <span class="custom-select__value">${escapeHtml(displayValue)}</span>
@@ -358,6 +359,7 @@ export function createCustomSelect(options, {
         <path d="M6 9l6 6 6-6"/>
       </svg>
     </button>
+
     <div class="custom-select__options" role="listbox" aria-hidden="true">
       ${options.map((opt, i) => `
         <div class="custom-select__option${opt.value === value ? ' custom-select__option--selected' : ''}" 
@@ -369,6 +371,7 @@ export function createCustomSelect(options, {
         </div>
       `).join('')}
     </div>
+
     <input type="hidden" name="${className}" value="${escapeHtml(value)}">
   `;
 
@@ -379,66 +382,106 @@ export function createCustomSelect(options, {
 
   let isOpen = false;
 
-  const open = () => {
-    customSelectInstances.forEach(instance => {
-      if (instance !== selectEl) {
-        instance.close();
-      }
-    });
+  const closeOnOutsideClick = (e) => {
+    if (!selectEl.contains(e.target)) {
+      close();
+    }
+  };
 
-    isOpen = true;
-    trigger.setAttribute('aria-expanded', 'true');
-    optionsEl.setAttribute('aria-hidden', 'false');
-    document.addEventListener('click', closeOnOutsideClick);
-    document.addEventListener('keydown', handleKeydown);
+  const handleKeydown = (e) => {
+    if (e.key === 'Escape') {
+      close();
+
+    } else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+
+      const current = selectEl.querySelector(
+        '.custom-select__option:focus, .custom-select__option--selected'
+      );
+
+      const index = Array.from(optionEls).indexOf(current);
+
+      const nextIndex = e.key === 'ArrowDown'
+        ? Math.min(index + 1, optionEls.length - 1)
+        : Math.max(index - 1, 0);
+
+      optionEls[nextIndex]?.focus();
+
+    } else if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+
+      const focused = selectEl.querySelector(
+        '.custom-select__option:focus'
+      );
+
+      if (focused) {
+        focused.click();
+      }
+    }
   };
 
   const close = () => {
     isOpen = false;
+
     trigger.setAttribute('aria-expanded', 'false');
     optionsEl.setAttribute('aria-hidden', 'true');
+
     document.removeEventListener('click', closeOnOutsideClick);
     document.removeEventListener('keydown', handleKeydown);
   };
 
-  customSelectInstances.add(selectEl);
+  const open = () => {
+    customSelectInstances.forEach(instanceClose => {
+      if (instanceClose !== close) {
+        instanceClose();
+      }
+    });
 
-  const closeOnOutsideClick = (e) => {
-    if (!selectEl.contains(e.target)) close();
+    isOpen = true;
+
+    trigger.setAttribute('aria-expanded', 'true');
+    optionsEl.setAttribute('aria-hidden', 'false');
+
+    document.addEventListener('click', closeOnOutsideClick);
+    document.addEventListener('keydown', handleKeydown);
   };
 
-  const handleKeydown = (e) => {
-    if (e.key === 'Escape') close();
-    else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
-      e.preventDefault();
-      const current = selectEl.querySelector('.custom-select__option:focus, .custom-select__option--selected');
-      const index = Array.from(optionEls).indexOf(current);
-      const nextIndex = e.key === 'ArrowDown' ? Math.min(index + 1, optionEls.length - 1) : Math.max(index - 1, 0);
-      optionEls[nextIndex]?.focus();
-    } else if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      const focused = selectEl.querySelector('.custom-select__option:focus');
-      if (focused) focused.click();
-    }
-  };
+  customSelectInstances.add(close);
 
   trigger.addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
-    isOpen ? close() : open();
+
+    if (isOpen) {
+      close();
+    } else {
+      open();
+    }
   });
 
   optionEls.forEach(opt => {
     opt.addEventListener('click', () => {
       const val = opt.dataset.value;
-      const label = opt.textContent;
+      const label = opt.textContent.trim();
+
       selectEl.querySelector('.custom-select__value').textContent = label;
       hiddenInput.value = val;
-      optionEls.forEach(o => o.classList.remove('custom-select__option--selected'));
+
+      optionEls.forEach(o => {
+        o.classList.remove('custom-select__option--selected');
+        o.setAttribute('aria-selected', 'false');
+      });
+
       opt.classList.add('custom-select__option--selected');
-      if (onChange) onChange(val, label);
+      opt.setAttribute('aria-selected', 'true');
+
+      if (onChange) {
+        onChange(val, label);
+      }
+
       close();
     });
+
     opt.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
