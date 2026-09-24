@@ -275,30 +275,37 @@ export default async function handler(req, res) {
     return res.status(200).end();
   }
 
+  // Semua endpoint /api/data membutuhkan login
   const authError = requireAuth(req, res);
-  if (authError) return authError;
-
-  await connectDB();
-
-  const { method, url } = req;
-  const path = url.split('?')[0];
+  if (authError) return;
 
   try {
-    if (path === '/' || path === '') {
-      if (method === 'GET') {
-        return handleGetAllData(req, res, req.userId);
-      } else if (method === 'PUT') {
-        return handleUpdateData(req, res, req.userId);
-      } else if (method === 'POST') {
-        return handleCreateData(req, res, req.userId);
-      } else if (method === 'DELETE') {
-        return handleDeleteData(req, res, req.userId);
-      }
-    }
+    await connectDB();
 
-    return res.status(404).json({ error: 'Route not found' });
+    switch (req.method) {
+      case 'GET':
+        return handleGetAllData(req, res, req.userId);
+
+      case 'POST':
+        return handleCreateData(req, res, req.userId);
+
+      case 'PUT':
+        return handleUpdateData(req, res, req.userId);
+
+      case 'DELETE':
+        return handleDeleteData(req, res, req.userId);
+
+      default:
+        return res.status(405).json({
+          error: 'Method Not Allowed'
+        });
+    }
   } catch (error) {
     console.error('API Error:', error);
-    return res.status(500).json({ error: 'Internal server error' });
+
+    return res.status(500).json({
+      error: 'Internal server error',
+      message: error.message
+    });
   }
 }
