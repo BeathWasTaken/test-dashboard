@@ -351,6 +351,8 @@ function showCourseModal(course = null) {
         await state.addCourse({ name, credits, semester, grade });
         showToast('Mata kuliah ditambahkan', 'success');
       }
+      close();
+      renderGrades(document.getElementById('page-container'));
     }
     catch (error) {
       showToast('Gagal menyimpan mata kuliah', 'error');
