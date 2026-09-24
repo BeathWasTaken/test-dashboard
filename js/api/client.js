@@ -26,21 +26,54 @@ class ApiClient {
   }
 
   async request(endpoint, options = {}) {
-    const url = `${API_BASE}${endpoint}`;
+    const url = `${window.location.origin}${API_BASE}${endpoint}`;
+
     const config = {
-      headers: this.getHeaders(),
-      ...options
+      ...options,
+      headers: {
+        ...this.getHeaders(),
+        ...(options.headers || {})
+      }
     };
 
     try {
+      console.log('API REQUEST:', {
+        url,
+        method: config.method || 'GET',
+        body: config.body
+      });
+
       const response = await fetch(url, config);
-      const data = await response.json();
+
+      // Jangan langsung response.json()
+      const text = await response.text();
+
+      let data = {};
+
+      if (text) {
+        try {
+          data = JSON.parse(text);
+        } catch {
+          data = {
+            error: text
+          };
+        }
+      }
+
+      console.log('API RESPONSE:', {
+        status: response.status,
+        ok: response.ok,
+        data
+      });
 
       if (!response.ok) {
-        throw new Error(data.error || `HTTP error! status: ${response.status}`);
+        throw new Error(
+          data.error || `HTTP error! status: ${response.status}`
+        );
       }
 
       return data;
+
     } catch (error) {
       console.error(`API Error (${endpoint}):`, error);
       throw error;
@@ -51,9 +84,17 @@ class ApiClient {
   async register(name, email, password) {
     const data = await this.request('/auth/register', {
       method: 'POST',
-      body: JSON.stringify({ name, email, password })
+      body: JSON.stringify({
+        name,
+        email,
+        password
+      })
     });
-    if (data.token) this.setToken(data.token);
+
+    if (data.token) {
+      this.setToken(data.token);
+    }
+
     return data;
   }
 
