@@ -17,10 +17,10 @@
 /* Sidebar */
 .sidebar {
   position: fixed;
-  top: 0;
+  top: var(--topbar-height);
   left: 0;
   width: var(--sidebar-width);
-  height: 100vh;
+  height: calc(100vh - var(--topbar-height));
   background: var(--sidebar-bg);
   border-right: 1px solid var(--border-color);
   display: flex;
@@ -209,7 +209,10 @@
 .sidebar-overlay {
   display: none;
   position: fixed;
-  inset: 0;
+  top: var(--topbar-height);
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(4px);
   z-index: calc(var(--z-sidebar) - 1);
@@ -293,7 +296,7 @@
 /* Main Content */
 .main-content {
   flex: 1;
-  padding: var(--space-6);
+  padding: calc(var(--topbar-height) + var(--space-6)) var(--space-6) var(--space-6);
   max-width: var(--content-max-width);
   width: 100%;
 }
