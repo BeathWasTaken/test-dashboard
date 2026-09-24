@@ -108,7 +108,7 @@
   padding: var(--space-6);
   transition: all var(--transition-base);
   position: relative;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .card::before {
