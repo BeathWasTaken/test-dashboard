@@ -377,72 +377,41 @@ function renderGoals(container) {
 
 
 
-      <div class="card" style="margin-top:var(--space-8)">
-
-        <h3 class="card__title" style="margin-bottom:var(--space-5)">Ringkasan Progres</h3>
-
-        <div class="chart-container">
-
-          <canvas data-chart="bar" data-config='${JSON.stringify({
-
-            labels: ['IP', 'IPK', 'SKS'],
-
-            data: [
-
-              Math.round((currentIP / goals.targetGPA) * 100),
-
-              Math.round((ipk / goals.targetCGPA) * 100),
-
-              Math.round((totalCredits / (milestones.find(m => m.autoKey === 'sks')?.target || 120)) * 100)
-
-            ]
-
-          })}'></canvas>
-
+      <div class="page-grid page-grid--2" style="margin-top:var(--space-8);gap:var(--space-6)">
+        <div class="card">
+          <h3 class="card__title" style="margin-bottom:var(--space-5)">Ringkasan Progres</h3>
+          <div class="chart-container">
+            <canvas data-chart="bar" data-config='${JSON.stringify({
+              labels: ['IP', 'IPK', 'SKS'],
+              data: [
+                Math.round((currentIP / goals.targetGPA) * 100),
+                Math.round((ipk / goals.targetCGPA) * 100),
+                Math.round((totalCredits / (milestones.find(m => m.autoKey === 'sks')?.target || 120)) * 100)
+              ]
+            })}'></canvas>
+          </div>
         </div>
 
-      </div>
-
-
-
-      <div class="card" style="margin-top:var(--space-6)">
-
-        <h3 class="card__title" style="margin-bottom:var(--space-5)">Ubah Target</h3>
-
-        <form id="goals-form">
-
-          <div class="form-row">
-
-            <div class="form-group">
-
-              <label class="form-label" for="goal-gpa">Target IP</label>
-
-              <input class="form-input" id="goal-gpa" type="number" step="0.01" min="0" max="4" value="${goals.targetGPA}">
-
+        <div class="card">
+          <h3 class="card__title" style="margin-bottom:var(--space-5)">Ubah Target</h3>
+          <form id="goals-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="goal-gpa">Target IP</label>
+                <input class="form-input" id="goal-gpa" type="number" step="0.01" min="0" max="4" value="${goals.targetGPA}">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="goal-cgpa">Target IPK</label>
+                <input class="form-input" id="goal-cgpa" type="number" step="0.01" min="0" max="4" value="${goals.targetCGPA}">
+              </div>
             </div>
-
             <div class="form-group">
-
-              <label class="form-label" for="goal-cgpa">Target IPK</label>
-
-              <input class="form-input" id="goal-cgpa" type="number" step="0.01" min="0" max="4" value="${goals.targetCGPA}">
-
+              <label class="form-label" for="goal-grad">Perkiraan Tanggal Kelulusan</label>
+              <input class="form-input" id="goal-grad" type="date" value="${goals.graduationDate}">
             </div>
-
-          </div>
-
-          <div class="form-group">
-
-            <label class="form-label" for="goal-grad">Perkiraan Tanggal Kelulusan</label>
-
-            <input class="form-input" id="goal-grad" type="date" value="${goals.graduationDate}">
-
-          </div>
-
-          <button type="submit" class="btn btn-primary">Simpan Target</button>
-
-        </form>
-
+            <button type="submit" class="btn btn-primary">Simpan Target</button>
+          </form>
+        </div>
       </div>
 
     </div>
