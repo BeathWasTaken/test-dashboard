@@ -6,21 +6,17 @@
   "framework": null,
   "outputDirectory": ".",
   "functions": {
+    "api/auth/register.js": {
+      "maxDuration": 30
+    },
+    "api/auth/login.js": {
+      "maxDuration": 30
+    },
     "api/auth/index.js": {
       "maxDuration": 30
     },
     "api/data/index.js": {
       "maxDuration": 30
     }
-  },
-  "rewrites": [
-    {
-      "source": "/api/auth/:path*",
-      "destination": "/api/auth/index.js"
-    },
-    {
-      "source": "/api/data/:path*",
-      "destination": "/api/data/index.js"
-    }
-  ]
+  }
 }

@@ -37,34 +37,19 @@ class ApiClient {
     };
 
     try {
-      console.log('API REQUEST:', {
-        url,
-        method: config.method || 'GET',
-        body: config.body
-      });
-
       const response = await fetch(url, config);
 
-      // Jangan langsung response.json()
       const text = await response.text();
 
       let data = {};
 
-      if (text) {
-        try {
-          data = JSON.parse(text);
-        } catch {
-          data = {
-            error: text
-          };
-        }
+      try {
+        data = text ? JSON.parse(text) : {};
+      } catch {
+        data = {
+          error: text || 'Empty response from server'
+        };
       }
-
-      console.log('API RESPONSE:', {
-        status: response.status,
-        ok: response.ok,
-        data
-      });
 
       if (!response.ok) {
         throw new Error(
@@ -73,7 +58,6 @@ class ApiClient {
       }
 
       return data;
-
     } catch (error) {
       console.error(`API Error (${endpoint}):`, error);
       throw error;
