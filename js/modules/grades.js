@@ -270,7 +270,7 @@ function renderGrades(container) {
 
   container.querySelectorAll('.edit-course').forEach(btn => {
     btn.addEventListener('click', () => {
-      const course = courses.find(c => c.id === btn.dataset.id);
+      const course = courses.find(c => (c._id || c.id) === btn.dataset.id);
       if (course) showCourseModal(course);
     });
   });
