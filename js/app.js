@@ -180,6 +180,8 @@ export async function init() {
   initGlobalSearch();
   initNotificationPanel();
   initKeyboardShortcuts();
+  
+  window.location.hash = 'dashboard';
   initRouter();
 
   generateNotifications();
