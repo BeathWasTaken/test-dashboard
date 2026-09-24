@@ -1012,8 +1012,8 @@
 /* Milestones */
 .milestone-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: var(--space-4);
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--space-5);
 }
 
 .milestone-card {
@@ -1024,6 +1024,7 @@
   border-radius: var(--radius-xl);
   overflow: hidden;
   transition: all var(--transition-base);
+  min-height: 100%;
 }
 
 .milestone-card:hover {
@@ -1094,6 +1095,9 @@
 
 .milestone-card__progress-section {
   padding: 0 var(--space-5) var(--space-4);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .milestone-card__progress-top {
