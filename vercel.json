@@ -13,18 +13,18 @@
       "maxDuration": 30
     }
   },
-  "routes": [
+  "rewrites": [
     {
-      "src": "/api/auth/(.*)",
-      "dest": "/api/auth/index.js"
+      "source": "/api/auth/:path*",
+      "destination": "/api/auth/index.js"
     },
     {
-      "src": "/api/data/(.*)",
-      "dest": "/api/data/index.js"
+      "source": "/api/data/:path*",
+      "destination": "/api/data/index.js"
     },
     {
-      "src": "/(.*)",
-      "dest": "/$1"
+      "source": "/(.*)",
+      "destination": "/$1"
     }
   ]
 }
