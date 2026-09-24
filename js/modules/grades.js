@@ -344,7 +344,7 @@ function showCourseModal(course = null) {
 
     try {
       if (isEdit) {
-        const courseId = course._id || course.id;
+        const courseId = course?._id || course?.id;
         await state.updateCourse(courseId, { name, credits, semester, grade });
         showToast('Mata kuliah diperbarui', 'success');
       } else {

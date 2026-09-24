@@ -323,7 +323,7 @@ function showAssignmentModal(assignment = null) {
     if (!title || !course || !deadline) return showToast('Lengkapi kolom wajib', 'error');
 
     const payload = { title, course, deadline, priority, status, description, file: fileAttachment };
-    const assignmentId = assignment._id || assignment.id;
+    const assignmentId = assignment?._id || assignment?.id;
 
     try {
       if (isEdit) {

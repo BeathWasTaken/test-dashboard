@@ -699,7 +699,7 @@ function showTransactionModal(type, transaction = null) {
 
     if (isEdit) {
 
-      state.updateTransaction(transaction._id || transaction.id, payload);
+      state.updateTransaction(transaction?._id || transaction?.id, payload);
 
       showToast('Transaksi diperbarui', 'success');
 
