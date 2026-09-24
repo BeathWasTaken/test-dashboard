@@ -53,7 +53,9 @@ class ApiClient {
 
       if (!response.ok) {
         throw new Error(
-          data.error || `HTTP error! status: ${response.status}`
+          data.message ||
+          data.error ||
+          `HTTP error! status: ${response.status}`
         );
       }
 
