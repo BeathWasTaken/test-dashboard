@@ -337,6 +337,8 @@ export function animateValue(element, start, end, duration = 800, decimals = 2) 
   requestAnimationFrame(update);
 }
 
+const customSelectInstances = new Set();
+
 export function createCustomSelect(options, {
   value = '',
   placeholder = 'Pilih...',
@@ -378,6 +380,12 @@ export function createCustomSelect(options, {
   let isOpen = false;
 
   const open = () => {
+    customSelectInstances.forEach(instance => {
+      if (instance !== selectEl) {
+        instance.close();
+      }
+    });
+
     isOpen = true;
     trigger.setAttribute('aria-expanded', 'true');
     optionsEl.setAttribute('aria-hidden', 'false');
@@ -392,6 +400,8 @@ export function createCustomSelect(options, {
     document.removeEventListener('click', closeOnOutsideClick);
     document.removeEventListener('keydown', handleKeydown);
   };
+
+  customSelectInstances.add(selectEl);
 
   const closeOnOutsideClick = (e) => {
     if (!selectEl.contains(e.target)) close();
