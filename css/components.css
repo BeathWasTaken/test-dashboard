@@ -1266,7 +1266,7 @@
    ========================= */
 
 .custom-select {
-  position: static;
+  position: relative;
   display: inline-flex;
   flex-direction: column;
   width: 180px;
