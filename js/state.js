@@ -31,6 +31,12 @@ class AppState {
     this.currentUserEmail = email;
   }
 
+  // Persist all data to server
+  persist() {
+    if (!this.currentUserEmail) return;
+    this.queueWrite('persist', () => api.updateProfile(this.data.profile, this.data.settings));
+  }
+
   async refreshFromServer() {
     if (!this.currentUserEmail) return;
     try {
