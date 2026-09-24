@@ -342,19 +342,17 @@ function showCourseModal(course = null) {
 
     if (!name) return showToast('Masukkan nama mata kuliah', 'error');
 
-    const courseId = course._id || course.id;
-
     try {
       if (isEdit) {
+        const courseId = course._id || course.id;
         await state.updateCourse(courseId, { name, credits, semester, grade });
         showToast('Mata kuliah diperbarui', 'success');
       } else {
         await state.addCourse({ name, credits, semester, grade });
         showToast('Mata kuliah ditambahkan', 'success');
       }
-      close();
-      renderGrades(document.getElementById('page-container'));
-    } catch (error) {
+    }
+    catch (error) {
       showToast('Gagal menyimpan mata kuliah', 'error');
     }
   });
