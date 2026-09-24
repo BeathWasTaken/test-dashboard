@@ -210,27 +210,40 @@ export default async function handler(req, res) {
     return res.status(200).end();
   }
 
-  await connectDB();
-
-  const { method, url } = req;
-  const path = url.split('?')[0];
-
   try {
-    if (path.endsWith('/register') && method === 'POST') {
+    await connectDB();
+
+    const method = req.method;
+    const path = req.query.path || '';
+
+    if (path === 'register' && method === 'POST') {
       return handleRegister(req, res);
-    } else if (path.endsWith('/login') && method === 'POST') {
+    }
+
+    if (path === 'login' && method === 'POST') {
       return handleLogin(req, res);
-    } else if (path === '/' || path === '') {
+    }
+
+    if (path === '' || path === '/') {
       if (method === 'GET') {
         return handleGetProfile(req, res);
-      } else if (method === 'PUT') {
+      }
+
+      if (method === 'PUT') {
         return handleUpdateProfile(req, res);
       }
     }
 
-    return res.status(404).json({ error: 'Route not found' });
+    return res.status(404).json({
+      error: 'Route not found',
+      path,
+      method
+    });
+
   } catch (error) {
     console.error('API Error:', error);
-    return res.status(500).json({ error: 'Internal server error' });
+    return res.status(500).json({
+      error: 'Internal server error'
+    });
   }
 }

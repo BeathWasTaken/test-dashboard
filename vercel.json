@@ -12,5 +12,15 @@
     "api/data/index.js": {
       "maxDuration": 30
     }
-  }
+  },
+  "rewrites": [
+    {
+      "source": "/api/auth/:path*",
+      "destination": "/api/auth/index.js?path=:path*"
+    },
+    {
+      "source": "/api/data/:path*",
+      "destination": "/api/data/index.js?path=:path*"
+    }
+  ]
 }
