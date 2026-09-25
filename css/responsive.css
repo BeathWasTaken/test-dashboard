@@ -144,33 +144,9 @@
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .cal__header {
-    font-size: 10px;
-    padding: var(--space-2) 2px;
-  }
-
     .cal__header {
     font-size: 10px;
     padding: var(--space-2) 2px;
-  }
-
-    .cal__event {
-    width: 16px;
-    height: 16px;
-    padding: 0;
-    margin: 0 auto 8px;
-    border-radius: 50%;
-    background: var(--border-color);
-    transition: background var(--transition-fast);
-  }
-
-  .cal__event--active {
-    background: var(--gradient-primary);
-  }
-
-  .cal__event-title,
-  .cal__event-meta {
-    display: none;
   }
 
   .schedule-manage-card {

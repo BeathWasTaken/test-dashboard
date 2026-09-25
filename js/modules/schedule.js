@@ -12,7 +12,7 @@ export function initSchedule() {
 }
 
 let viewMode = 'daily';
-let selectedWeeklyIds = new Set();
+let selectedWeeklyDay = null;
 
 function formatLocation(item) {
   if (item.mode === 'online') return '<span class="badge badge--info">Online</span>';
@@ -120,6 +120,8 @@ function renderSchedule(container) {
 }
 
 function renderWeeklyView(schedule, conflicts) {
+  if (!selectedWeeklyDay) selectedWeeklyDay = DAYS[0];
+
   let html = '<div class="cal-wrap"><div class="cal">';
   DAYS_SHORT.forEach(d => {
     html += `<div class="cal__header">${d}</div>`;
@@ -130,7 +132,15 @@ function renderWeeklyView(schedule, conflicts) {
       .filter(s => matchesDay(s.day, day))
       .sort((a, b) => a.startTime.localeCompare(b.startTime));
 
+    const isActive = day === selectedWeeklyDay;
+    const hasClass = events.length > 0;
+
     html += `<div class="cal__daycol">`;
+    html += `
+      <div class="cal__day-toggle ${isActive ? 'cal__day-toggle--active' : ''} ${hasClass ? 'cal__day-toggle--has' : ''}"
+           data-day="${day}" role="button" tabindex="0"></div>
+    `;
+
     if (!events.length) {
       html += `<div class="cal__empty">—</div>`;
     } else {
@@ -263,7 +273,6 @@ function renderDetailCardHtml(item) {
   const id = item._id || item.id;
   return `
     <div class="cal-detail-card" data-id="${id}">
-      <div class="cal-detail-card__day">${item.day}</div>
       <div class="cal-detail-card__header">
         <h4 class="cal-detail-card__title">${escapeHtml(item.courseName)}</h4>
         <span class="cal-detail-card__mode">${item.mode === 'online' ? 'Online' : 'Offline · ' + escapeHtml(item.room || '—')}</span>
@@ -280,21 +289,26 @@ function renderDetailCardHtml(item) {
 
 function updateDetailPanel(container) {
   const panel = container.querySelector('#cal-detail-panel');
-  if (!panel) return;
+  if (!panel || !selectedWeeklyDay) return;
 
-  const schedule = state.get().schedule;
-  const items = [...selectedWeeklyIds]
-    .map(id => schedule.find(s => (s._id || s.id) === id))
-    .filter(Boolean);
+  const schedule = getFilteredSchedule(state.get().schedule);
+  const items = schedule
+    .filter(s => matchesDay(s.day, selectedWeeklyDay))
+    .sort((a, b) => a.startTime.localeCompare(b.startTime));
+
+  panel.classList.add('cal-detail-panel--visible');
 
   if (!items.length) {
-    panel.innerHTML = '';
-    panel.classList.remove('cal-detail-panel--visible');
+    panel.innerHTML = `<div class="empty-state"><p>Tidak ada kelas hari ${selectedWeeklyDay}</p></div>`;
     return;
   }
 
-  panel.classList.add('cal-detail-panel--visible');
-  panel.innerHTML = items.map(renderDetailCardHtml).join('');
+  panel.innerHTML = `
+    <div class="cal-detail-panel__heading">
+      <h3>${selectedWeeklyDay}</h3>
+      <span class="badge badge--primary">${items.length} kelas</span>
+    </div>
+  ` + items.map(renderDetailCardHtml).join('');
 
   panel.querySelectorAll('.cal-detail-card__btn').forEach(btn => {
     btn.addEventListener('click', () => showDetailModal(btn.dataset.id));
@@ -302,30 +316,11 @@ function updateDetailPanel(container) {
 }
 
 function bindScheduleEvents(container) {
-    container.querySelectorAll('.cal__event').forEach(el => {
-    if (selectedWeeklyIds.has(el.dataset.id)) {
-      el.classList.add('cal__event--active');
-    }
-
+  container.querySelectorAll('.cal__day-toggle').forEach(el => {
     el.addEventListener('click', () => {
-      const id = el.dataset.id;
-      const isMobile = window.matchMedia('(max-width: 768px)').matches;
-
-      if (!isMobile) {
-        showDetailModal(id);
-        return;
-      }
-
-      if (selectedWeeklyIds.has(id)) {
-        selectedWeeklyIds.delete(id);
-        el.classList.remove('cal__event--active');
-      } else {
-        selectedWeeklyIds.add(id);
-        el.classList.add('cal__event--active');
-      }
-      updateDetailPanel(container);
+      selectedWeeklyDay = el.dataset.day;
+      renderSchedule(container);
     });
-
     el.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
@@ -334,7 +329,15 @@ function bindScheduleEvents(container) {
     });
   });
 
-  updateDetailPanel(container);
+  container.querySelectorAll('.cal__event').forEach(el => {
+    el.addEventListener('click', () => showDetailModal(el.dataset.id));
+    el.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        showDetailModal(el.dataset.id);
+      }
+    });
+  });
 
   container.querySelectorAll('.add-gcal').forEach(btn => {
     btn.addEventListener('click', () => openGCalForSchedule(btn.dataset.id));
@@ -362,6 +365,8 @@ function bindScheduleEvents(container) {
       }
     });
   });
+
+  updateDetailPanel(container);
 }
 
 function showScheduleModal(item = null) {
