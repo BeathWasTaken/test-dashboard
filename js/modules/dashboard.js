@@ -1,6 +1,6 @@
 import { state } from '../state.js';
 
-import { registerRoute } from '../router.js';
+import { registerRoute, navigate } from '../router.js';
 
 import { initCharts } from '../components/charts.js';
 
@@ -160,7 +160,7 @@ function renderDashboard(container) {
 
             ${quickLinks.map(l => `
 
-              <a href="#${l.nav}" class="dash-quick-link" data-nav="${l.nav}">
+              <a href="/${l.nav}" class="dash-quick-link" data-nav="${l.nav}">
 
                 <span class="dash-quick-link__icon">${l.icon}</span>
 
@@ -344,7 +344,7 @@ function renderDashboard(container) {
 
             <h3 class="card__title">Tenggat Mendatang</h3>
 
-            <a href="#assignments" class="btn-text" data-nav="assignments">Lihat semua</a>
+            <a href="/assignments" class="btn-text" data-nav="assignments">Lihat semua</a>
 
           </div>
 
@@ -388,7 +388,7 @@ function renderDashboard(container) {
 
           <h3 class="card__title">Keuangan</h3>
 
-          <a href="#finance" class="btn-text" data-nav="finance">Kelola keuangan</a>
+          <a href="/finance" class="btn-text" data-nav="finance">Kelola keuangan</a>
 
         </div>
 
@@ -481,16 +481,10 @@ function renderDashboard(container) {
 
 
   container.querySelectorAll('[data-nav]').forEach(link => {
-
     link.addEventListener('click', (e) => {
-
       e.preventDefault();
-
-      window.location.hash = link.dataset.nav;
-
+      navigate(link.dataset.nav);
     });
-
   });
-
 }
 
