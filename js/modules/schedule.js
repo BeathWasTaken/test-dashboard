@@ -49,14 +49,12 @@ function renderSchedule(container) {
         </div>
       </div>
 
-      <div class="card" style="margin-bottom: var(--space-6)">
-        <div class="section-header">
-          <div class="filters-bar" style="gap: var(--space-3); flex-wrap: wrap;">
-            <div id="day-filter-container"></div>
-            <div id="mode-filter-container"></div>
-          </div>
-        </div>
+      <div class="card" style="margin-bottom: var(--space-6); padding: var(--space-4) var(--space-5);">
+      <div class="filters-bar" style="margin-bottom: 0; gap: var(--space-3); flex-wrap: wrap;">
+        <div id="day-filter-container"></div>
+        <div id="mode-filter-container"></div>
       </div>
+    </div>
 
       ${displaySchedule.length ? `
         <div class="schedule-grid">
