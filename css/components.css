@@ -2891,10 +2891,26 @@
 }
 
 @media (max-width: 640px) {
+  .daily-class {
+    flex-wrap: wrap;
+  }
+
+  .daily-class__info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .schedule-item-actions {
+    margin-left: 0;
+    width: 100%;
+    justify-content: flex-end;
+    padding-top: var(--space-2);
+    border-top: 1px solid var(--border-light);
+  }
   .dash-quick-links {
     justify-content: center;
   }
-  
+
   .filters-bar--assignments {
     flex-direction: column;
     align-items: stretch;
