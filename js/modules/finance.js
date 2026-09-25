@@ -17,7 +17,7 @@ const INCOME_CATEGORIES = ['Keluarga', 'Pekerjaan', 'Lainnya'];
 
 const EXPENSE_CATEGORIES = ['Kuliah', 'Makan', 'Transportasi', 'Pacaran', 'Hiburan', 'Lainnya'];
 
-const CAT_COLORS = ['#6366f1', '#10b981', '#f59e0b', '#ef4444', '#ec4899', '#06b6d4', '#8b5cf6'];
+const CAT_COLORS = ['#7b1113', '#a82023', '#c41e3a', '#e03e4b', '#f47272', '#9b2c2c', '#d94a4a'];
 
 function getBudget() {
   const s = state.get().settings;

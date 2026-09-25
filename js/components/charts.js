@@ -1,6 +1,6 @@
 const CHART_COLORS = [
-  '#6366f1', '#8b5cf6', '#06b6d4', '#10b981', '#f59e0b',
-  '#ef4444', '#3b82f6', '#ec4899', '#14b8a6'
+  '#7b1113', '#a82023', '#c41e3a', '#e03e4b', '#f47272',
+  '#f8a5a5', '#9b2c2c', '#d94a4a', '#ff6b6b'
 ];
 
 function getThemeColors() {
