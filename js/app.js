@@ -181,7 +181,6 @@ export async function init() {
   initNotificationPanel();
   initKeyboardShortcuts();
   
-  window.location.hash = 'dashboard';
   initRouter();
 
   generateNotifications();

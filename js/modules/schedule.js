@@ -28,19 +28,11 @@ function getFilteredSchedule(schedule) {
 }
 
 function renderYearSelector() {
-  const current = parseInt(state.get().settings.scheduleYear) || new Date().getFullYear();
-  const years = [];
-  const thisYear = new Date().getFullYear();
-  for (let y = thisYear - 2; y <= thisYear + 4; y++) {
-    years.push(y);
-  }
   return `
     <div class="filters-bar" style="margin-top:var(--space-4)">
       <label style="display:flex;align-items:center;gap:var(--space-2);font-size:var(--font-size-sm);color:var(--text-muted)">
         Tahun Akademik
-        <select class="form-select" id="schedule-year-filter" style="width:auto">
-          ${years.map(y => `<option value="${y}" ${y === current ? 'selected' : ''}>${y}/${y + 1}</option>`).join('')}
-        </select>
+        <div id="year-filter-container"></div>
       </label>
     </div>
   `;
