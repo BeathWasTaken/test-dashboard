@@ -4,7 +4,7 @@ import { openModal, confirmDialog } from '../components/modal.js';
 import { showToast } from '../components/toast.js';
 import {
   DAYS, DAYS_SHORT, generateId, escapeHtml, formatTime, buildCourseSelectHtml,
-  getDayName, detectConflicts, buildScheduleGCalUrl, matchesDay
+  getDayName, detectConflicts, buildScheduleGCalUrl, createCustomSelect, matchesDay
 } from '../utils.js';
 
 export function initSchedule() {
