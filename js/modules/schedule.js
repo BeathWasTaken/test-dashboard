@@ -111,10 +111,22 @@ function renderSchedule(container) {
     });
   });
 
-  container.querySelector('#schedule-year-filter')?.addEventListener('change', (e) => {
-    state.updateSettings({ scheduleYear: parseInt(e.target.value) });
-    renderSchedule(container);
+  // Custom select untuk tahun akademik
+  const currentYear = parseInt(state.get().settings.scheduleYear) || new Date().getFullYear();
+  const thisYear = new Date().getFullYear();
+  const yearOptions = [];
+  for (let y = thisYear - 2; y <= thisYear + 4; y++) {
+    yearOptions.push({ value: String(y), label: `${y}/${y + 1}` });
+  }
+  const yearSelect = createCustomSelect(yearOptions, {
+    value: String(currentYear),
+    placeholder: `${currentYear}/${currentYear + 1}`,
+    onChange: (val) => {
+      state.updateSettings({ scheduleYear: parseInt(val) });
+      renderSchedule(container);
+    }
   });
+  container.querySelector('#year-filter-container').appendChild(yearSelect);
 
   bindScheduleEvents(container);
 }
