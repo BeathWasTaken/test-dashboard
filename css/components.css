@@ -2878,7 +2878,7 @@
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  border-radius: 7px;
+  border-radius: 8px;
   padding-left: var(--space-5);
 }
 
