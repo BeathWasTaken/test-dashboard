@@ -615,7 +615,7 @@ function showMilestoneModal() {
 
     if (type === 'checkbox') {
       await state.addMilestone({
-        title, type: 'checkbox', target: 1, current: 0, completed: false
+        id: generateId(), title, type: 'checkbox', target: 1, current: 0, completed: false
       });
     } else {
       const target = parseFloat(modal.querySelector('#ms-target').value);
@@ -625,7 +625,7 @@ function showMilestoneModal() {
       if (!target || target <= 0) return showToast('Masukkan target yang valid', 'error');
 
       await state.addMilestone({
-        title, type: 'numeric', target, current,
+        id: generateId(), title, type: 'numeric', target, current,
         completed: current >= target, unit: isCurrency ? 'currency' : 'number'
       });
     }
