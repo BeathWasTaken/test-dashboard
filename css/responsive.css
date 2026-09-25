@@ -144,6 +144,23 @@
     grid-template-columns: repeat(2, 1fr);
   }
 
+  .cal__event {
+    padding: var(--space-2) var(--space-2);
+  }
+
+  .cal__event-title {
+    font-size: var(--font-size-xs);
+  }
+
+  .cal__event-meta {
+    font-size: 10px;
+  }
+
+  .cal__header {
+    font-size: 10px;
+    padding: var(--space-2) 2px;
+  }
+
   .schedule-manage-card {
     flex-direction: column;
     align-items: stretch;
