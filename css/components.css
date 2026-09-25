@@ -2874,6 +2874,22 @@
   color: var(--color-info);
 }
 
+#assign-search {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: var(--radius-full);
+  padding-left: var(--space-5);
+}
+
+/* Hilangkan juga ikon "x" clear bawaan Safari/Chrome kalau ganggu, opsional */
+#assign-search::-webkit-search-decoration,
+#assign-search::-webkit-search-cancel-button,
+#assign-search::-webkit-search-results-button,
+#assign-search::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+}
+
 @media (max-width: 640px) {
   /* Filter bar Tugas: rapikan jadi stacked bersih */
   .filters-bar--assignments {
