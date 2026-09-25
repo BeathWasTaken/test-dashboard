@@ -2026,13 +2026,13 @@
 .cal__event {
   background: var(--gradient-primary);
   color: white;
-  padding: var(--space-1) var(--space-2);
-  border-radius: var(--radius-sm);
-  font-size: 11px;
-  margin-bottom: 1px;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  margin-bottom: 2px;
   cursor: pointer;
   transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-  line-height: 1.3;
+  line-height: 1.4;
 }
 
 .cal__event:hover {
@@ -2058,9 +2058,17 @@
   overflow-wrap: break-word;
 }
 
+.cal__event-title {
+  font-weight: 600;
+  font-size: var(--font-size-base);
+  white-space: normal;
+  overflow-wrap: break-word;
+  margin-bottom: 2px;
+}
+
 .cal__event-meta {
-  opacity: 0.85;
-  font-size: 10px;
+  opacity: 0.9;
+  font-size: var(--font-size-xs);
 }
 
 .schedule-manage {
