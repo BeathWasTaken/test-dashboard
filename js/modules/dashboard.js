@@ -260,7 +260,7 @@ function renderDashboard(container) {
 
               labels: gpaTrend.map(t => `Sem ${t.semester}`),
 
-              datasets: [{ data: gpaTrend.map(t => t.gpa), fill: true, color: '#6366f1' }],
+              datasets: [{ data: gpaTrend.map(t => t.gpa), fill: true, color: '#7b1113' }],
 
               options: { maxY: 4 }
 

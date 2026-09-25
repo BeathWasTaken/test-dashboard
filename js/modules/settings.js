@@ -251,7 +251,7 @@ function renderSettings(container) {
 export function applyTheme(theme) {
   document.documentElement.setAttribute('data-theme', theme);
   const meta = document.querySelector('meta[name="theme-color"]');
-  if (meta) meta.setAttribute('content', theme === 'dark' ? '#0b0f1a' : '#6366f1');
+  if (meta) meta.setAttribute('content', theme === 'dark' ? '#0b0f1a' : '#7b1113');
   const sun = document.querySelector('.icon-sun');
   const moon = document.querySelector('.icon-moon');
   if (sun && moon) {
