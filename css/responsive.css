@@ -144,21 +144,33 @@
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .cal__event {
-    padding: var(--space-2) var(--space-2);
-  }
-
-  .cal__event-title {
-    font-size: var(--font-size-xs);
-  }
-
-  .cal__event-meta {
-    font-size: 10px;
-  }
-
   .cal__header {
     font-size: 10px;
     padding: var(--space-2) 2px;
+  }
+
+  .cal__event {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    margin: 0 auto 6px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cal__event-title,
+  .cal__event-meta {
+    display: none;
+  }
+
+  .cal__event::after {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
   }
 
   .schedule-manage-card {
