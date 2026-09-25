@@ -12,6 +12,7 @@ export function initSchedule() {
 }
 
 let viewMode = 'daily';
+let selectedWeeklyIds = new Set();
 
 function formatLocation(item) {
   if (item.mode === 'online') return '<span class="badge badge--info">Online</span>';
@@ -148,6 +149,7 @@ function renderWeeklyView(schedule, conflicts) {
   });
 
   html += '</div></div>';
+  html += '<div class="cal-detail-panel" id="cal-detail-panel"></div>';
   return html;
 }
 
@@ -257,16 +259,82 @@ function openGCalForSchedule(id) {
   showToast('Membuka Google Calendar...', 'info');
 }
 
+function renderDetailCardHtml(item) {
+  const id = item._id || item.id;
+  return `
+    <div class="cal-detail-card" data-id="${id}">
+      <div class="cal-detail-card__day">${item.day}</div>
+      <div class="cal-detail-card__header">
+        <h4 class="cal-detail-card__title">${escapeHtml(item.courseName)}</h4>
+        <span class="cal-detail-card__mode">${item.mode === 'online' ? 'Online' : 'Offline · ' + escapeHtml(item.room || '—')}</span>
+      </div>
+      <div class="cal-detail-card__row">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        ${formatTime(item.startTime)} - ${formatTime(item.endTime)}
+      </div>
+      ${item.lecturer ? `<div class="cal-detail-card__row">${escapeHtml(item.lecturer)}</div>` : ''}
+      <button type="button" class="btn btn-primary btn-sm cal-detail-card__btn" data-id="${id}">Lihat Detail</button>
+    </div>
+  `;
+}
+
+function updateDetailPanel(container) {
+  const panel = container.querySelector('#cal-detail-panel');
+  if (!panel) return;
+
+  const schedule = state.get().schedule;
+  const items = [...selectedWeeklyIds]
+    .map(id => schedule.find(s => (s._id || s.id) === id))
+    .filter(Boolean);
+
+  if (!items.length) {
+    panel.innerHTML = '';
+    panel.classList.remove('cal-detail-panel--visible');
+    return;
+  }
+
+  panel.classList.add('cal-detail-panel--visible');
+  panel.innerHTML = items.map(renderDetailCardHtml).join('');
+
+  panel.querySelectorAll('.cal-detail-card__btn').forEach(btn => {
+    btn.addEventListener('click', () => showDetailModal(btn.dataset.id));
+  });
+}
+
 function bindScheduleEvents(container) {
-  container.querySelectorAll('.cal__event').forEach(el => {
-    el.addEventListener('click', () => showDetailModal(el.dataset.id));
+    container.querySelectorAll('.cal__event').forEach(el => {
+    if (selectedWeeklyIds.has(el.dataset.id)) {
+      el.classList.add('cal__event--active');
+    }
+
+    el.addEventListener('click', () => {
+      const id = el.dataset.id;
+      const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+      if (!isMobile) {
+        showDetailModal(id);
+        return;
+      }
+
+      if (selectedWeeklyIds.has(id)) {
+        selectedWeeklyIds.delete(id);
+        el.classList.remove('cal__event--active');
+      } else {
+        selectedWeeklyIds.add(id);
+        el.classList.add('cal__event--active');
+      }
+      updateDetailPanel(container);
+    });
+
     el.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        showDetailModal(el.dataset.id);
+        el.click();
       }
     });
   });
+
+  updateDetailPanel(container);
 
   container.querySelectorAll('.add-gcal').forEach(btn => {
     btn.addEventListener('click', () => openGCalForSchedule(btn.dataset.id));

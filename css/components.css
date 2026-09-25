@@ -2042,6 +2042,59 @@
   font-size: var(--font-size-xs);
 }
 
+.cal-detail-panel {
+  display: none;
+  gap: var(--space-3);
+  overflow-x: auto;
+  padding: var(--space-4) 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.cal-detail-panel--visible {
+  display: flex;
+}
+
+.cal-detail-card {
+  flex: 0 0 260px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.cal-detail-card__day {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.cal-detail-card__title {
+  font-size: var(--font-size-base);
+  font-weight: 700;
+}
+
+.cal-detail-card__mode {
+  font-size: var(--font-size-xs);
+  color: var(--color-primary);
+}
+
+.cal-detail-card__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.cal-detail-card__btn {
+  margin-top: var(--space-2);
+  align-self: flex-start;
+}
+
 .schedule-manage {
   display: flex;
   flex-direction: column;

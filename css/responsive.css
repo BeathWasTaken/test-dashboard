@@ -154,29 +154,23 @@
     padding: var(--space-2) 2px;
   }
 
-  .cal__event {
-    width: 34px;
-    height: 34px;
+    .cal__event {
+    width: 16px;
+    height: 16px;
     padding: 0;
-    margin: 0 auto 6px;
-    border-radius: var(--radius-md);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    margin: 0 auto 8px;
+    border-radius: 50%;
+    background: var(--border-color);
+    transition: background var(--transition-fast);
+  }
+
+  .cal__event--active {
+    background: var(--gradient-primary);
   }
 
   .cal__event-title,
   .cal__event-meta {
     display: none;
-  }
-
-  .cal__event::after {
-    content: '';
-    width: 18px;
-    height: 18px;
-    background: white;
-    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 19.5A2.5 2.5 0 0 1 6.5 17H20'/%3E%3Cpath d='M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z'/%3E%3C/svg%3E") no-repeat center / contain;
-    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 19.5A2.5 2.5 0 0 1 6.5 17H20'/%3E%3Cpath d='M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z'/%3E%3C/svg%3E") no-repeat center / contain;
   }
 
   .schedule-manage-card {
