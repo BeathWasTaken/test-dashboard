@@ -1964,9 +1964,9 @@
 }
 
 .cal {
-  display: grid;
-  grid-template-columns: repeat(7, minmax(160px, 1fr));
-  min-width: 1120px;
+  grid-template-columns: 36px repeat(7, minmax(0, 1fr));
+  font-size: 10px;
+  min-width: 0;
 }
 
 .cal__header {
@@ -2011,12 +2011,7 @@
 }
 
 .cal__cell {
-  min-height: 44px;
-  padding: 2px;
-  border-bottom: 1px solid var(--border-light);
-  border-right: 1px solid var(--border-light);
-  position: relative;
-  background: var(--card-bg);
+    min-height: 36px;
 }
 
 .cal__cell:hover {
@@ -2024,15 +2019,8 @@
 }
 
 .cal__event {
-  background: var(--gradient-primary);
-  color: white;
-  padding: var(--space-3) var(--space-4);
-  border-radius: var(--radius-md);
-  font-size: var(--font-size-sm);
-  margin-bottom: 2px;
-  cursor: pointer;
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-  line-height: 1.4;
+  font-size: 10px;
+  padding: 1px 4px;
 }
 
 .cal__event:hover {
