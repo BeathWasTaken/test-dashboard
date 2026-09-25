@@ -129,7 +129,11 @@ function renderAssignments(container) {
 
   container.querySelector('#assign-search').addEventListener('input', (e) => {
     filters.search = e.target.value;
+    const cursorPos = e.target.selectionStart;
     renderAssignments(container);
+    const newInput = container.querySelector('#assign-search');
+    newInput.focus();
+    newInput.setSelectionRange(cursorPos, cursorPos);
   });
 
   // Initialize custom selects for filters
