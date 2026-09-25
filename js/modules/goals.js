@@ -483,60 +483,32 @@ function renderGoals(container) {
 
   });
 
-
-
   container.querySelectorAll('.mark-milestone').forEach(btn => {
-
-    btn.addEventListener('click', () => {
-
-      state.updateMilestone(btn.dataset.id, { completed: true, current: 1 });
-
+    btn.addEventListener('click', async () => {
+      await state.updateMilestone(btn.dataset.id, { completed: true, current: 1 });
       showToast('Pencapaian ditandai selesai!', 'success');
-
       renderGoals(container);
-
     });
-
   });
-
-
 
   container.querySelectorAll('.unmark-milestone').forEach(btn => {
-
-    btn.addEventListener('click', () => {
-
-      state.updateMilestone(btn.dataset.id, { completed: false, current: 0 });
-
+    btn.addEventListener('click', async () => {
+      await state.updateMilestone(btn.dataset.id, { completed: false, current: 0 });
       showToast('Status pencapaian dibatalkan', 'info');
-
       renderGoals(container);
-
     });
-
   });
-
-
 
   container.querySelectorAll('.update-milestone-current').forEach(btn => {
-
-    btn.addEventListener('click', () => {
-
+    btn.addEventListener('click', async () => {
       const input = container.querySelector(`.milestone-current-input[data-id="${btn.dataset.id}"]`);
-
       const val = parseFloat(input.value) || 0;
-
       const target = goals.milestones.find(m => m.id === btn.dataset.id)?.target || 0;
-
-      state.updateMilestone(btn.dataset.id, { current: val, completed: val >= target });
-
+      await state.updateMilestone(btn.dataset.id, { current: val, completed: val >= target });
       showToast('Progres diperbarui', 'success');
-
       renderGoals(container);
-
     });
-
   });
-
 }
 
 
@@ -635,58 +607,32 @@ function showMilestoneModal() {
 
   modal.querySelector('.modal-cancel').addEventListener('click', close);
 
-  modal.querySelector('#save-milestone').addEventListener('click', () => {
-
+  modal.querySelector('#save-milestone').addEventListener('click', async () => {
     const title = modal.querySelector('#ms-title').value.trim();
-
     const type = typeSelect.value;
-
-
 
     if (!title) return showToast('Masukkan judul pencapaian', 'error');
 
-
-
     if (type === 'checkbox') {
-
-      state.addMilestone({
-
+      await state.addMilestone({
         title, type: 'checkbox', target: 1, current: 0, completed: false
-
       });
-
     } else {
-
       const target = parseFloat(modal.querySelector('#ms-target').value);
-
       const current = parseFloat(modal.querySelector('#ms-current').value) || 0;
-
       const isCurrency = modal.querySelector('#ms-currency').checked;
-
-
 
       if (!target || target <= 0) return showToast('Masukkan target yang valid', 'error');
 
-
-
-      state.addMilestone({
-
+      await state.addMilestone({
         title, type: 'numeric', target, current,
-
         completed: current >= target, unit: isCurrency ? 'currency' : 'number'
-
       });
-
     }
 
-
-
     showToast('Pencapaian ditambahkan', 'success');
-
     close();
-
     renderGoals(document.getElementById('page-container'));
-
   });
 
 }
