@@ -106,9 +106,7 @@ function renderDashboard(container) {
 
     { nav: 'schedule', label: 'Lihat Jadwal' },
 
-    { nav: 'assignments', label: 'Lihat Tugas' },
-
-    { nav: 'finance', label: 'Lihat Keuangan' }
+    { nav: 'assignments', label: 'Lihat Tugas' }
 
   ];
 
