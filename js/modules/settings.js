@@ -141,8 +141,8 @@ function renderSettings(container) {
       <div class="settings-section">
         <h2 class="settings-section__title">Tentang</h2>
         <div class="card">
-          <p style="color:var(--text-secondary);margin-bottom:var(--space-2)"><strong>Campusify</strong> v1.0.0</p>
-          <p style="color:var(--text-muted);font-size:var(--font-size-sm)">Dibuat untuk pacarku tercinta ❤️</p>
+          <p style="color:var(--text-secondary);margin-bottom:var(--space-2)"><strong>Edu Pocket</strong> v1.0.0</p>
+          <p style="color:var(--text-muted);font-size:var(--font-size-sm)">Dibuat oleh Kelompok 7 (Manajemen Pendidikan) dalam memenuhi tugas Teknologi dalam Manajemen Pendidikan</p>
         </div>
       </div>
     </div>

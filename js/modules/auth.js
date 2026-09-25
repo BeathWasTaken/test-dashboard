@@ -92,7 +92,7 @@ function showAuthScreen() {
         </div>
       </div>
       
-      <p class="auth-footer">Campusify — Dasbor Akademik Mahasiswa</p>
+      <p class="auth-footer">EduPocket - Dasbor Akademik Mahasiswa</p>
     </div>
   `;
   
