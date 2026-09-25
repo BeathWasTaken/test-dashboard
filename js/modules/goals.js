@@ -117,24 +117,17 @@ function renderMilestoneCard(m) {
         </div>`;
 
   } else if (m.type === 'numeric') {
-
     footerHtml = `
-
       <div class="milestone-card__footer milestone-card__footer--numeric">
-
         <div class="milestone-card__input-wrap">
-
           <label class="milestone-card__input-label">Progres saat ini</label>
-
-<div class="milestone-card__input-row">
-
+          <div class="milestone-card__input-row">
             <input class="form-input milestone-current-input" type="number" min="0" step="${m.unit === 'currency' ? 1000 : 1}" value="${m.current}" data-id="${m._id || m.id}">
             <button type="button" class="btn btn-primary update-milestone-current" data-id="${m._id || m.id}">Update</button>
-
           </div>
-
+        </div>
+      </div>
     `;
-
   } else {
 
     footerHtml = `<div class="milestone-card__footer"><span class="milestone-card__auto-note">Diperbarui otomatis dari data akademik</span></div>`;
@@ -377,7 +370,7 @@ function renderGoals(container) {
 
 
 
-      <div class="page-grid page-grid--2" style="margin-top:var(--space-8);margin-bottom:var(--space-8);gap:var(--space-6)">
+      <div class="page-grid page-grid--2" style="margin-top:var(--space-8);gap:var(--space-6)">
         <div class="card">
           <h3 class="card__title" style="margin-bottom:var(--space-5)">Ringkasan Progres</h3>
           <div class="chart-container">
