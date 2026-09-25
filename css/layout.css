@@ -254,7 +254,7 @@
   outline: none;
   background: var(--input-bg);
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  box-shadow: 0 0 0 3px rgba(123, 17, 19, 0.1);
 }
 
 .topbar__actions {
