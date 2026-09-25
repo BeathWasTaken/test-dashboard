@@ -69,7 +69,7 @@ function renderSchedule(container) {
             <p class="page-header__subtitle">Kelola jadwal kuliah mingguan Anda</p>
           </div>
           <div class="quick-actions">
-            <button class="btn btn-secondary" id="add-schedule-btn">
+            <button class="btn btn-primary" id="add-schedule-btn">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
               Tambah Kelas
             </button>
