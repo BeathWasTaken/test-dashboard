@@ -2891,7 +2891,10 @@
 }
 
 @media (max-width: 640px) {
-  /* Filter bar Tugas: rapikan jadi stacked bersih */
+  .dash-quick-links {
+    justify-content: center;
+  }
+  
   .filters-bar--assignments {
     flex-direction: column;
     align-items: stretch;
