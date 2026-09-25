@@ -47,11 +47,6 @@ function renderSchedule(container) {
   const conflicts = detectConflicts(filtered);
   const today = getDayName();
 
-  const hours = [];
-  for (let h = 7; h <= 18; h++) {
-    hours.push(`${String(h).padStart(2, '0')}:00`);
-  }
-
   container.innerHTML = `
     <div class="page">
       <div class="page-header">
@@ -89,7 +84,7 @@ function renderSchedule(container) {
 
       <div id="schedule-content">
         ${viewMode === 'daily' ? renderDailyView(filtered, today, conflicts) :
-          renderWeeklyView(filtered, conflicts, hours)}
+          renderWeeklyView(filtered, conflicts)}
       </div>
     </div>
   `;
@@ -123,21 +118,21 @@ function renderSchedule(container) {
   bindScheduleEvents(container);
 }
 
-function renderWeeklyView(schedule, conflicts, hours) {
+function renderWeeklyView(schedule, conflicts) {
   let html = '<div class="cal-wrap"><div class="cal">';
-  html += '<div class="cal__header"></div>';
   DAYS_SHORT.forEach(d => {
     html += `<div class="cal__header">${d}</div>`;
   });
 
-  hours.forEach(hour => {
-    html += `<div class="cal__time">${hour}</div>`;
-    DAYS.forEach(day => {
-      const events = schedule.filter(s => {
-        if (!matchesDay(s.day, day)) return false;
-        return parseInt(s.startTime.split(':')[0]) === parseInt(hour.split(':')[0]);
-      });
-      html += `<div class="cal__cell">`;
+  DAYS.forEach(day => {
+    const events = schedule
+      .filter(s => matchesDay(s.day, day))
+      .sort((a, b) => a.startTime.localeCompare(b.startTime));
+
+    html += `<div class="cal__daycol">`;
+    if (!events.length) {
+      html += `<div class="cal__empty">—</div>`;
+    } else {
       events.forEach(e => {
         const id = e._id || e.id;
         const color = conflicts.has(id) ? 'cal__event--conflict' : '';
@@ -148,8 +143,8 @@ function renderWeeklyView(schedule, conflicts, hours) {
           </div>
         `;
       });
-      html += '</div>';
-    });
+    }
+    html += '</div>';
   });
 
   html += '</div></div>';
