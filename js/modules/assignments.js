@@ -82,7 +82,7 @@ function renderAssignments(container) {
         </div>
       </div>
 
-      <div class="filters-bar">
+      <div class="filters-bar filters-bar--assignments">
         <input class="form-input" id="assign-search" type="search" placeholder="Cari tugas..." value="${escapeHtml(filters.search)}">
         <div id="assign-status-container"></div>
         <div id="assign-priority-container"></div>
