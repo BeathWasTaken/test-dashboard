@@ -377,7 +377,7 @@ function renderGoals(container) {
 
 
 
-      <div class="page-grid page-grid--2" style="margin-top:var(--space-8);gap:var(--space-6)">
+      <div class="page-grid page-grid--2" style="margin-top:var(--space-8);margin-bottom:var(--space-8);gap:var(--space-6)">
         <div class="card">
           <h3 class="card__title" style="margin-bottom:var(--space-5)">Ringkasan Progres</h3>
           <div class="chart-container">
