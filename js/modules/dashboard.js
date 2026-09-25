@@ -102,13 +102,13 @@ function renderDashboard(container) {
 
   const quickLinks = [
 
-    { nav: 'grades', label: 'Nilai', icon: '📊' },
+    { nav: 'grades', label: 'Lihat Nilai' },
 
-    { nav: 'schedule', label: 'Jadwal', icon: '📅' },
+    { nav: 'schedule', label: 'Lihat Jadwal' },
 
-    { nav: 'assignments', label: 'Tugas', icon: '✅' },
+    { nav: 'assignments', label: 'Lihat Tugas' },
 
-    { nav: 'finance', label: 'Keuangan', icon: '💰' }
+    { nav: 'finance', label: 'Lihat Keuangan' }
 
   ];
 
@@ -161,8 +161,6 @@ function renderDashboard(container) {
             ${quickLinks.map(l => `
 
               <a href="/${l.nav}" class="dash-quick-link" data-nav="${l.nav}">
-
-                <span class="dash-quick-link__icon">${l.icon}</span>
 
                 <span>${l.label}</span>
 
