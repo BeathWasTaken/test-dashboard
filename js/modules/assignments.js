@@ -83,7 +83,10 @@ function renderAssignments(container) {
       </div>
 
       <div class="filters-bar filters-bar--assignments">
-        <input class="form-input" id="assign-search" type="search" placeholder="Cari tugas..." value="${escapeHtml(filters.search)}">
+        <div class="topbar__search" style="max-width:none;flex:1;min-width:200px">
+          <svg class="topbar__search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input class="form-input topbar__search-input" id="assign-search" type="search" placeholder="Cari tugas..." value="${escapeHtml(filters.search)}" style="border-radius:var(--radius-full)">
+        </div>
         <div id="assign-status-container"></div>
         <div id="assign-priority-container"></div>
         <div id="assign-sort-container"></div>
